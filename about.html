@@ -464,16 +464,31 @@
   }
 }
 
-.nav-hamburger { display: none; }
-
-.nav-mobile-menu {
+.nav-hamburger {
   display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #C9A84C;
+  padding: 8px;
+  z-index: 1001;
+  line-height: 1;
 }
 
-.nav-mobile-menu.is-open {
-  display: flex !important;
-  opacity: 1;
-  visibility: visible;
+.nav-mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0D0D0D;
+  z-index: 2000;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  display: none;
 }
 
 @media (max-width: 768px) {
@@ -488,14 +503,34 @@
     justify-content: space-between !important;
     align-items: center !important;
   }
-  .nav-logo img { display: none !important; }
-  .nav-logo::after {
-    content: "LC Fashion Closet";
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #C9A84C;
-    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .hero-logo-wrap {
+    width: 120px !important;
+    height: 120px !important;
+    margin-bottom: 20px !important;
+    margin-left: 0 !important;
+    display: block !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    overflow: visible !important;
+  }
+  .hero-logo-img {
+    width: 110px !important;
+    height: 110px !important;
+  }
+  .hero-logo-glow {
+    display: none !important;
+  }
+  .hero-left {
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+  .hero-content {
+    overflow: hidden !important;
   }
 }
     </style>
@@ -531,7 +566,7 @@
         <button class="nav-hamburger" aria-label="Open menu" style="background:none; border:none; cursor:pointer; font-size:1.5rem; color:#C9A84C; line-height:1; padding:8px; z-index:1001;">☰</button>
     </nav>
 
-    <div class="nav-mobile-menu" style="position:fixed; top:0; left:0; right:0; bottom:0; background:#0D0D0D; z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:32px;">
+    <div class="nav-mobile-menu">
       <button class="nav-mobile-close" style="position:absolute; top:24px; right:24px; background:none; border:none; cursor:pointer; color:#C9A84C; font-size:1.8rem; line-height:1;">&times;</button>
       <a href="#" class="nav-mobile-categories" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">ALL CATEGORIES</a>
       <a href="index.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">HOME</a>
@@ -1156,38 +1191,34 @@
             document.getElementById('page-loader').classList.add('hide');
         }, 2000);
 
-        // Mobile Menu
-        (function() {
-          const hamburger = document.querySelector('.nav-hamburger');
-          const mobileMenu = document.querySelector('.nav-mobile-menu');
-          const mobileClose = document.querySelector('.nav-mobile-close');
+(function() {
+  var hamburger = document.querySelector('.nav-hamburger');
+  var mobileMenu = document.querySelector('.nav-mobile-menu');
+  var mobileClose = document.querySelector('.nav-mobile-close');
 
-          if (!hamburger || !mobileMenu) return;
+  if (!hamburger || !mobileMenu) return;
 
-          // Start hidden
-          mobileMenu.style.display = 'none';
+  hamburger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    mobileMenu.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  });
 
-          hamburger.addEventListener('click', function(e) {
-            e.stopPropagation();
-            mobileMenu.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-          });
+  if (mobileClose) {
+    mobileClose.addEventListener('click', function(e) {
+      e.stopPropagation();
+      mobileMenu.style.display = 'none';
+      document.body.style.overflow = '';
+    });
+  }
 
-          if (mobileClose) {
-            mobileClose.addEventListener('click', function(e) {
-              e.stopPropagation();
-              mobileMenu.style.display = 'none';
-              document.body.style.overflow = '';
-            });
-          }
-
-          mobileMenu.querySelectorAll('a').forEach(function(link) {
-            link.addEventListener('click', function() {
-              mobileMenu.style.display = 'none';
-              document.body.style.overflow = '';
-            });
-          });
-        })();
+  mobileMenu.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      mobileMenu.style.display = 'none';
+      document.body.style.overflow = '';
+    });
+  });
+})();
 
         // Mega Categories Menu JavaScript
         (function() {

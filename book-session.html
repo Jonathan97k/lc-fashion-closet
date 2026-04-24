@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Session | LC Fashion Closet</title>
+    <meta name="description" content="Book your personal styling session with LC Fashion Closet. Expert fashion advice tailored to your needs in Lilongwe, Malawi. Contact us on WhatsApp: +265992756277">
+    <meta name="keywords" content="personal styling, fashion consultation, Lilongwe, Malawi, LC Fashion Closet, styling session">
+    <meta name="author" content="Logner Chimalizeni">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0D0D0D;
+            --accent-color: #C9A84C;
+            --light-gold: #F0D080;
+            --white: #FFFFFF;
+            --light-bg: #F9F6F0;
+            --heading-font: 'Playfair Display', serif;
+            --body-font: 'Lato', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background: var(--light-bg);
+            color: var(--primary-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--heading-font);
+        }
+
+        /* Page Loader */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader-overlay.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid var(--light-bg);
+            border-top: 6px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--primary-color);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 0 40px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .navbar > div:first-child {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo .main {
+            font-family: var(--heading-font);
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo .sub {
+            font-family: var(--body-font);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.7rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-family: var(--body-font);
+            color: rgba(255,255,255,0.85);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 2px;
+        }
+
+        .cta-button {
+            background: var(--accent-color);
+            color: var(--primary-color);
+            font-weight: 700;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            background: var(--light-gold);
+            transform: translateY(-1px);
+        }
+
+        .hamburger {
+            display: none;
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hamburger {
+                display: block;
+            }
+        }
+
+        /* All Categories Trigger Button */
+        .cat-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #C9A84C;
+            color: #0D0D0D;
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            user-select: none;
+            transition: background 0.2s;
+            margin-right: 20px;
+        }
+
+        .cat-trigger:hover {
+            background: #F0D080;
+        }
+
+        .cat-chevron {
+            transition: transform 0.3s;
+            font-size: 12px;
+        }
+
+        .cat-trigger.open .cat-chevron {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 480px) {
+            .cat-trigger span {
+                display: none;
+            }
+
+            .cat-trigger {
+                padding: 9px 12px;
+                margin-right: 10px;
+            }
+        }
+
+        /* Mega Categories Menu */
+        .mc-dropdown {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            z-index: 9998;
+            background: #FFFFFF;
+            border-top: 3px solid #C9A84C;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            display: none;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .mc-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 40px;
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 0;
+        }
+
+        .mc-sidebar {
+            background: #F9F6F0;
+            border-right: 1px solid #eee;
+            padding: 10px 0;
+        }
+
+        .mc-sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 20px;
+            cursor: pointer;
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            color: #333;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .mc-sidebar-item:hover,
+        .mc-sidebar-item.active {
+            background: #FFFFFF;
+            color: #0D0D0D;
+            border-left-color: #C9A84C;
+            font-weight: 700;
+        }
+
+        .mc-sidebar-item:hover i,
+        .mc-sidebar-item.active i {
+            color: #C9A84C;
+        }
+
+        .mc-sidebar-item i {
+            color: #999;
+            font-size: 15px;
+            width: 18px;
+        }
+
+        .mc-arrow {
+            margin-left: auto;
+            font-size: 11px;
+            color: #ccc;
+            transition: color 0.2s;
+        }
+
+        .mc-sidebar-item:hover .mc-arrow,
+        .mc-sidebar-item.active .mc-arrow {
+            color: #C9A84C;
+        }
+
+        .mc-content {
+            padding: 20px 30px;
+            background: #FFFFFF;
+        }
+
+        .mc-panel {
+            display: none;
+        }
+
+        .mc-panel.active {
+            display: block;
+        }
+
+        .mc-panel h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #0D0D0D;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .mc-accent {
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: #C9A84C;
+            margin-bottom: 20px;
+        }
+
+        .mc-subgrid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px 20px;
+        }
+
+        .mc-subgrid a {
+            display: block;
+            padding: 8px 0;
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            color: #555;
+            text-decoration: none;
+            border-bottom: 1px solid #f0f0f0;
+            transition: color 0.2s, padding-left 0.2s;
+        }
+
+        .mc-subgrid a:hover {
+            color: #C9A84C;
+            padding-left: 6px;
+        }
+
+        /* Page Banner */
+        .page-banner {
+            background: linear-gradient(135deg, #0D0D0D 0%, #1a1a1a 60%, #0f0d08 100%);
+            padding: 100px 0 70px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(201,168,76,0.07) 0%, transparent 60%);
+        }
+
+        .page-banner-label {
+            font-family: 'Lato', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #C9A84C;
+            display: block;
+            margin-bottom: 14px;
+        }
+
+        .page-banner h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: #FFFFFF;
+            font-weight: 700;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .page-banner-bar {
+            width: 60px;
+            height: 3px;
+            background: #C9A84C;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Active nav link */
+        .nav-active {
+            color: #C9A84C !important;
+            border-bottom: 2px solid #C9A84C;
+            padding-bottom: 2px;
+        }
+
+        /* Book a Session Section */
+        #book-session {
+            background: #F9F6F0;
+            padding: 80px 0;
+        }
+
+        .bs-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .bs-grid {
+            display: grid;
+            grid-template-columns: 55% 45%;
+            gap: 60px;
+            align-items: center;
+        }
+
+        /* Info Side */
+        .bs-info-side {
+            order: 2;
+        }
+
+        .bs-label {
+            font-family: 'Lato', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #C9A84C;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .bs-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: #0D0D0D;
+            line-height: 1.3;
+            margin-bottom: 15px;
+        }
+
+        .bs-title-accent {
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #C9A84C;
+            margin: 0 auto 25px auto;
+        }
+
+        .bs-description {
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 35px;
+        }
+
+        .bs-features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+        }
+
+        .bs-feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .bs-feature-item i {
+            color: #C9A84C;
+            font-size: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .bs-feature-item span {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .bs-whatsapp-link {
+            margin-top: 30px;
+        }
+
+        .bs-chat-prompt {
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .bs-whatsapp-cta {
+            color: #25D366;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+
+        .bs-whatsapp-cta:hover {
+            color: #C9A84C;
+        }
+
+        .bs-whatsapp-cta i {
+            font-size: 20px;
+        }
+
+        /* Form Side */
+        .bs-form-side {
+            order: 1;
+        }
+
+        .bs-form-card {
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 40px 36px;
+            border: 1px solid rgba(201,168,76,0.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .bs-form-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #FFFFFF;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+
+        #session-form-fields {
+            display: block;
+        }
+
+        .bs-field-group {
+            margin-bottom: 20px;
+        }
+
+        .bs-field-group label {
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #C9A84C;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        .bs-field-group input,
+        .bs-field-group select,
+        .bs-field-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            background: #0D0D0D;
+            border: 1.5px solid rgba(201,168,76,0.25);
+            color: #FFFFFF;
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .bs-field-group input:focus,
+        .bs-field-group select:focus,
+        .bs-field-group textarea:focus {
+            border-color: #C9A84C;
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+        }
+
+        .bs-field-group input::placeholder,
+        .bs-field-group textarea::placeholder {
+            color: rgba(255,255,255,0.35);
+        }
+
+        .bs-field-group select {
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        .bs-field-group select option {
+            background: #1a1a1a;
+            color: #FFFFFF;
+        }
+
+        .bs-field-group textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .bs-field-group input.error,
+        .bs-field-group select.error,
+        .bs-field-group textarea.error {
+            border-color: #e74c3c;
+            animation: shake 0.3s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .bs-submit-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #C9A84C, #F0D080);
+            color: #0D0D0D;
+            font-family: 'Lato', sans-serif;
+            font-weight: 800;
+            font-size: 15px;
+            letter-spacing: 1px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: opacity 0.3s, transform 0.3s;
+            box-shadow: 0 6px 20px rgba(201,168,76,0.35);
+        }
+
+        .bs-submit-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Success Message */
+        .bs-success-message {
+            display: none;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .bs-success-message i {
+            color: #C9A84C;
+            font-size: 52px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .bs-success-message h4 {
+            font-family: 'Playfair Display', serif;
+            color: #FFFFFF;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .bs-success-message p {
+            font-family: 'Lato', sans-serif;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        #main-footer {
+            background: #0D0D0D;
+            border-top: 1px solid rgba(201,168,76,0.25);
+            padding: 70px 0 0 0;
+        }
+
+        .ft-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .ft-main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.4fr;
+            gap: 50px;
+        }
+
+        .ft-brand-col {
+            order: 1;
+        }
+
+        .ft-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #C9A84C;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .ft-tagline {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9rem;
+            font-style: italic;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 20px;
+        }
+
+        .ft-description {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.8;
+            margin-bottom: 28px;
+        }
+
+        .ft-social-icons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .ft-social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(201,168,76,0.3);
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 15px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .ft-social-btn:hover {
+            background: #C9A84C;
+            border-color: #C9A84C;
+            color: #0D0D0D;
+            transform: scale(1.1);
+        }
+
+        .ft-links-col,
+        .ft-categories-col {
+            order: 2;
+        }
+
+        .ft-col-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #FFFFFF;
+            font-weight: 600;
+            margin-bottom: 22px;
+        }
+
+        .ft-underline {
+            display: block;
+            width: 35px;
+            height: 2px;
+            background: #C9A84C;
+            margin-bottom: 22px;
+        }
+
+        .ft-links-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .ft-links-list li {
+            margin-bottom: 13px;
+        }
+
+        .ft-links-list a {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: block;
+        }
+
+        .ft-links-list a:hover {
+            color: #C9A84C;
+            padding-left: 6px;
+        }
+
+        .ft-contact-col {
+            order: 3;
+        }
+
+        .ft-contact-items {
+            margin-bottom: 28px;
+        }
+
+        .ft-contact-item {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+
+        .ft-contact-item i {
+            color: #C9A84C;
+            font-size: 16px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .ft-contact-item a,
+        .ft-contact-item span {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.6;
+            text-decoration: none;
+        }
+
+        .ft-contact-item a:hover {
+            color: #C9A84C;
+        }
+
+        .ft-newsletter {
+            margin-top: 22px;
+        }
+
+        .ft-newsletter-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: #FFFFFF;
+            margin-bottom: 4px;
+        }
+
+        .ft-newsletter-subtitle {
+            font-family: 'Lato', sans-serif;
+            font-size: 12px;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 14px;
+        }
+
+        .ft-newsletter-form {
+            display: flex;
+            gap: 0;
+        }
+
+        .ft-email-input {
+            flex: 1;
+            padding: 11px 14px;
+            border-radius: 6px 0 0 6px;
+            background: #1a1a1a;
+            border: 1.5px solid rgba(201,168,76,0.3);
+            border-right: none;
+            color: #FFFFFF;
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .ft-email-input:focus {
+            border-color: #C9A84C;
+        }
+
+        .ft-email-input::placeholder {
+            color: rgba(255,255,255,0.35);
+        }
+
+        .ft-newsletter-btn {
+            padding: 11px 18px;
+            border-radius: 0 6px 6px 0;
+            background: #C9A84C;
+            color: #0D0D0D;
+            font-family: 'Lato', sans-serif;
+            font-weight: 800;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+            white-space: nowrap;
+        }
+
+        .ft-newsletter-btn:hover {
+            background: #F0D080;
+        }
+
+        .ft-bottom-bar {
+            margin-top: 55px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 22px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .ft-copyright,
+        .ft-credit {
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .ft-heart {
+            color: #C9A84C;
+        }
+
+        /* WhatsApp Floating Button */
+        .hero2-whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 24px;
+            z-index: 999;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #25D366;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .hero2-whatsapp-float:hover {
+            background: #20b858;
+            transform: scale(1.1);
+        }
+
+        /* ===== MOBILE RESPONSIVENESS ===== */
+        /* Global fixes */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        /* Ensure all sections have box-sizing border-box */
+        section, footer, div, header {
+            box-sizing: border-box;
+        }
+
+        /* Touch targets minimum 44px */
+        button, .btn-primary, .btn-secondary,
+        .bs-submit-btn, .ft-social-btn, .tc-nav-btn,
+        .ft-newsletter-btn, a, input, select, textarea {
+            min-height: 44px;
+            touch-action: manipulation;
+        }
+
+        /* Font scaling - section headings with clamp */
+        .section-title,
+        .featured-title,
+        .wc-title,
+        .tm-title,
+        .bs-title,
+        .tc-title,
+        h1, h2, h3, h4, h5, h6 {
+            font-size: clamp(1.6rem, 5vw, 2.4rem);
+        }
+
+        /* Minimum body text 14px */
+        body, p, .bs-description, .wc-reason-text, .tm-quote-text,
+        .ft-description, .ft-tagline, .category-name,
+        .product-category {
+            font-size: 14px;
+        }
+
+        /* Navbar mobile */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                height: auto;
+                padding: 15px 20px;
+            }
+
+            .navbar > div:first-child {
+                width: 100%;
+                justify-content: space-between;
+                margin-bottom: 10px;
+            }
+
+            .cat-trigger {
+                margin-right: 0;
+                margin-bottom: 0;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                margin: 15px 0;
+                flex-wrap: wrap;
+            }
+
+            .nav-links a {
+                display: inline-block;
+                margin: 4px 8px;
+            }
+
+            .cta-button {
+                width: 100%;
+                margin-top: 10px;
+                min-height: 44px;
+            }
+
+            .hamburger {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .cta-button {
+                width: 100%;
+            }
+        }
+
+        /* Book a Session mobile */
+        @media (max-width: 768px) {
+            .bs-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .bs-info-side {
+                order: 2;
+            }
+
+            .bs-form-side {
+                order: 1;
+            }
+
+            .bs-form-card {
+                padding: 28px 22px;
+            }
+
+            .bs-field-group input,
+            .bs-field-group select,
+            .bs-field-group textarea {
+                min-height: 44px;
+            }
+
+            .bs-title {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Mega Categories mobile */
+        @media (max-width: 768px) {
+            .mc-dropdown {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                width: 100%;
+            }
+
+            .mc-container {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .mc-sidebar {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+                margin-bottom: 20px;
+            }
+
+            .mc-sidebar-item {
+                position: relative;
+            }
+
+            .mc-sidebar-item .mc-arrow {
+                display: none;
+            }
+
+            .mc-content {
+                padding: 0;
+            }
+
+            .mc-panel {
+                display: none !important;
+            }
+
+            .mc-panel.active {
+                display: block !important;
+            }
+
+            .mc-subgrid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .mc-subgrid a {
+                border-bottom: none;
+                padding: 10px 0;
+                border-top: 1px solid #f0f0f0;
+            }
+
+            .mc-subgrid a:first-child {
+                border-top: none;
+            }
+        }
+
+        /* Footer mobile */
+        @media (max-width: 900px) {
+            .ft-main-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .ft-main-grid {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .ft-bottom-bar {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Verify no horizontal overflow on extremely small screens */
+        @media (max-width: 320px) {
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+
+            .tc-card {
+                flex: 0 0 90px;
+                padding: 12px 8px;
+            }
+
+            .tc-card-title {
+                font-size: 0.75rem;
+            }
+
+            .ft-main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Loader -->
+    <div id="page-loader" class="loader-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <span class="main">LC Fashion Closet</span>
+            <span class="sub">by Logner Chimalizeni</span>
+        </div>
+        <div class="cat-trigger" id="catTrigger">
+            <i class="fas fa-th"></i>
+            <span>All Categories</span>
+            <i class="fas fa-chevron-down cat-chevron"></i>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="book-session.html" class="nav-active">Book a Session</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <button class="cta-button">Book a Session</button>
+        <i class="fas fa-bars hamburger"></i>
+    </nav>
+
+    <!-- Mega Categories Dropdown -->
+    <div id="catDropdown" class="mc-dropdown">
+        <div class="mc-container">
+            <div class="mc-sidebar">
+                <div class="mc-sidebar-item active" id="cat-women">
+                    <i class="fas fa-female"></i>
+                    <span>Women's Fashion</span>
+                    <i class="fas fa-chevron-right mc-arrow"></i>
+                </div>
+                <div class="mc-sidebar-item" id="cat-men">
+                    <i class="fas fa-male"></i>
+                    <span>Men's Fashion</span>
+                    <i class="fas fa-chevron-right mc-arrow"></i>
+                </div>
+                <div class="mc-sidebar-item" id="cat-bags">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Bags & Purses</span>
+                    <i class="fas fa-chevron-right mc-arrow"></i>
+                </div>
+                <div class="mc-sidebar-item" id="cat-shoes">
+                    <i class="fas fa-shoe-prints"></i>
+                    <span>Shoes & Heels</span>
+                    <i class="fas fa-chevron-right mc-arrow"></i>
+                </div>
+                <div class="mc-sidebar-item" id="cat-jewellery">
+                    <i class="fas fa-gem"></i>
+                    <span>Jewellery & Sets</span>
+                    <i class="fas fa-chevron-right mc-arrow"></i>
+                </div>
+                <div class="mc-sidebar-item" id="cat-ankara">
+                    <i class="fas fa-palette"></i>
+                    <span>Ankara & African Print</span>
+                    <i class="fas fa-chevron-right mc-arrow"></i>
+                </div>
+                <div class="mc-sidebar-item" id="cat-accessories">
+                    <i class="fas fa-glasses"></i>
+                    <span>Accessories</span>
+                    <i class="fas fa-chevron-right mc-arrow"></i>
+                </div>
+                <div class="mc-sidebar-item" id="cat-beauty">
+                    <i class="fas fa-spray-can"></i>
+                    <span>Beauty & Lifestyle</span>
+                    <i class="fas fa-spray-can"></i>
+                </div>
+            </div>
+
+            <div class="mc-content">
+                <div class="mc-panel active" data-for="cat-women">
+                    <h3>Women's Fashion</h3>
+                    <span class="mc-accent"></span>
+                    <div class="mc-subgrid">
+                        <a href="https://wa.me/265992756277" target="_blank">Wrap Dresses</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Midi Skirts</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Blazers & Suits</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Co-ord Sets</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Jumpsuits</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Crop Tops</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Ankara Dresses</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Evening Gowns</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Casual T-Shirts</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Lingerie & Nightwear</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Maternity Wear</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Swimwear</a>
+                    </div>
+                </div>
+
+                <div class="mc-panel" data-for="cat-men">
+                    <h3>Men's Fashion</h3>
+                    <span class="mc-accent"></span>
+                    <div class="mc-subgrid">
+                        <a href="https://wa.me/265992756277" target="_blank">Slim Fit Blazers</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Chinos & Trousers</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Linen Shirts</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Casual Polo Shirts</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Suits & Formal Wear</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Hoodies & Sweatshirts</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Joggers & Shorts</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Traditional Wear</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Ankara Shirts</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Underwear & Socks</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Jackets & Coats</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Sportswear</a>
+                    </div>
+                </div>
+
+                <div class="mc-panel" data-for="cat-bags">
+                    <h3>Bags & Purses</h3>
+                    <span class="mc-accent"></span>
+                    <div class="mc-subgrid">
+                        <a href="https://wa.me/265992756277" target="_blank">Crossbody Bags</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Tote Bags</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Clutch Bags</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Backpacks</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Mini Bags</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Work & Office Bags</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Travel Bags</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Shoulder Bags</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Belt Bags</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Evening Bags</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Leather Bags</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Ankara Print Bags</a>
+                    </div>
+                </div>
+
+                <div class="mc-panel" data-for="cat-shoes">
+                    <h3>Shoes & Heels</h3>
+                    <span class="mc-accent"></span>
+                    <div class="mc-subgrid">
+                        <a href="https://wa.me/265992756277" target="_blank">Block Heel Sandals</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Strappy Heels</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Stilettos</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Flat Sandals</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Sneakers</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Loafers & Mules</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Ankle Boots</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Wedge Heels</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Open-Toe Heels</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Ballet Flats</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Platform Shoes</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Slides & Slippers</a>
+                    </div>
+                </div>
+
+                <div class="mc-panel" data-for="cat-jewellery">
+                    <h3>Jewellery & Sets</h3>
+                    <span class="mc-accent"></span>
+                    <div class="mc-subgrid">
+                        <a href="https://wa.me/265992756277" target="_blank">Gold Chain Necklaces</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Layered Necklaces</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Chokers</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Stud Earrings</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Hoop Earrings</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Drop Earrings</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Bracelets & Bangles</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Rings & Bands</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Anklets</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Jewellery Gift Sets</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Pearl Jewellery</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Men's Chains</a>
+                    </div>
+                </div>
+
+                <div class="mc-panel" data-for="cat-ankara">
+                    <h3>Ankara & African Print</h3>
+                    <span class="mc-accent"></span>
+                    <div class="mc-subgrid">
+                        <a href="https://wa.me/265992756277" target="_blank">Ankara Dresses</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Co-ord Sets</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Ankara Blazers</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Head Wraps & Turbans</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Ankara Skirts</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Men's Ankara Shirts</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Ankara Bags</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Patchwork Styles</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Kids Ankara Wear</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Custom Tailored Pieces</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Kitenge Wear</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Festival Outfits</a>
+                    </div>
+                </div>
+
+                <div class="mc-panel" data-for="cat-accessories">
+                    <h3>Accessories</h3>
+                    <span class="mc-accent"></span>
+                    <div class="mc-subgrid">
+                        <a href="https://wa.me/265992756277" target="_blank">Sunglasses</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Belts</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Scarves & Wraps</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Hats & Caps</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Hair Accessories</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Watches</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Wallets & Card Holders</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Phone Cases</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Keyrings & Charms</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Headbands & Clips</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Socks & Tights</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Face Masks</a>
+                    </div>
+                </div>
+
+                <div class="mc-panel" data-for="cat-beauty">
+                    <h3>Beauty & Lifestyle</h3>
+                    <span class="mc-accent"></span>
+                    <div class="mc-subgrid">
+                        <a href="https://wa.me/265992756277" target="_blank">Skincare Sets</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Perfumes & Body Mist</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Lip Gloss & Lipstick</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Hair Care</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Nail Care</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Body Lotions & Oils</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Makeup Brushes</a>
+                        <a href="https://wa.me/265992756277" target="_blank">False Lashes</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Shea Butter Products</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Wigs & Extensions</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Candles & Home Fragrance</a>
+                        <a href="https://wa.me/265992756277" target="_blank">Wellness</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <div class="page-banner-label">PERSONAL STYLING</div>
+        <h1>Book a Styling Session</h1>
+        <span class="page-banner-bar"></span>
+    </section>
+
+    <!-- Book a Session Section -->
+    <section id="book-session">
+        <div class="bs-container">
+            <div class="bs-grid">
+                <!-- Left Column: Info Side -->
+                <div class="bs-info-side">
+                    <div class="bs-label">PERSONAL STYLING</div>
+                    <h2 class="bs-title">Book Your Personal Styling Session</h2>
+                    <span class="accent-bar"></span>
+                    <p class="bs-description">Whether you need a complete wardrobe refresh or help styling a special occasion, our personal styling service brings expert fashion advice directly to you — right here in Lilongwe.</p>
+
+                    <ul class="bs-features-list">
+                        <li class="bs-feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>One-on-one virtual or in-person consultation</span>
+                        </li>
+                        <li class="bs-feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Personalised outfit recommendations</span>
+                        </li>
+                        <li class="bs-feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Shopping list tailored to your budget</span>
+                        </li>
+                        <li class="bs-feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Follow-up support via WhatsApp</span>
+                        </li>
+                    </ul>
+
+                    <div class="bs-whatsapp-link">
+                        <p class="bs-chat-prompt">Prefer to chat first?</p>
+                        <a href="https://wa.me/265992756277" target="_blank" class="bs-whatsapp-cta">
+                            <i class="fab fa-whatsapp"></i>
+                            Chat with us on WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column: Form Side -->
+                <div class="bs-form-side">
+                    <div class="bs-form-card">
+                        <h3 class="bs-form-title">Request a Session</h3>
+
+                        <div id="session-success" class="bs-success-message">
+                            <i class="fas fa-check-circle"></i>
+                            <h4>Session Requested!</h4>
+                            <p>Thank you! We'll contact you on WhatsApp within 24 hours to confirm your booking.</p>
+                        </div>
+
+                        <div id="session-form-fields">
+                            <div class="bs-field-group">
+                                <label for="bs-fullname">Full Name</label>
+                                <input type="text" id="bs-fullname" placeholder="Enter your full name">
+                            </div>
+
+                            <div class="bs-field-group">
+                                <label for="bs-phone">Phone Number</label>
+                                <input type="tel" id="bs-phone" placeholder="+265 99 275 6277">
+                            </div>
+
+                            <div class="bs-field-group">
+                                <label for="bs-date">Preferred Date</label>
+                                <input type="date" id="bs-date">
+                            </div>
+
+                            <div class="bs-field-group">
+                                <label for="bs-session-type">Session Type</label>
+                                <select id="bs-session-type">
+                                    <option value="" disabled selected>Select session type...</option>
+                                    <option value="wardrobe-refresh">Wardrobe Refresh Consultation</option>
+                                    <option value="special-occasion">Special Occasion Styling</option>
+                                    <option value="everyday-casual">Everyday Casual Styling</option>
+                                    <option value="mens-styling">Men's Styling Session</option>
+                                    <option value="online-virtual">Online Virtual Styling</option>
+                                </select>
+                            </div>
+
+                            <div class="bs-field-group">
+                                <label for="bs-notes">Additional Notes</label>
+                                <textarea id="bs-notes" rows="4" placeholder="Tell us about your styling needs..."></textarea>
+                            </div>
+
+                            <button type="button" class="bs-submit-btn" id="bs-submit-btn">
+                                <span>✦</span>  Book My Session  <span>✦</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="main-footer">
+        <div class="ft-container">
+            <div class="ft-main-grid">
+                <!-- Column 1: Brand -->
+                <div class="ft-brand-col">
+                    <div class="ft-logo">LC Fashion Closet</div>
+                    <p class="ft-tagline">Style Delivered to Your Door</p>
+                    <p class="ft-description">Your premier fashion destination in Malawi. We bring curated styles, personal styling services, and effortless delivery straight to your door across Lilongwe and beyond.</p>
+
+                    <div class="ft-social-icons">
+                        <a href="#" class="ft-social-btn" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="ft-social-btn" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="ft-social-btn" aria-label="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="https://wa.me/265992756277" class="ft-social-btn" aria-label="WhatsApp" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="ft-links-col">
+                    <h3 class="ft-col-title">Quick Links</h3>
+                    <span class="ft-underline"></span>
+                    <ul class="ft-links-list">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Shop All</a></li>
+                        <li><a href="products.html">New Arrivals</a></li>
+                        <li><a href="products.html">Featured Products</a></li>
+                        <li><a href="book-session.html">Book a Session</a></li>
+                        <li><a href="about.html">Why Choose Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Categories -->
+                <div class="ft-categories-col">
+                    <h3 class="ft-col-title">Categories</h3>
+                    <span class="ft-underline"></span>
+                    <ul class="ft-links-list">
+                        <li><a href="products.html">Women's Fashion</a></li>
+                        <li><a href="products.html">Men's Fashion</a></li>
+                        <li><a href="products.html">Accessories</a></li>
+                        <li><a href="products.html">Bags & Purses</a></li>
+                        <li><a href="products.html">Shoes & Heels</a></li>
+                        <li><a href="products.html">Ankara & African Print</a></li>
+                        <li><a href="products.html">Jewellery & Sets</a></li>
+                        <li><a href="products.html">Lifestyle & Beauty</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact & Hours -->
+                <div class="ft-contact-col">
+                    <h3 class="ft-col-title">Get In Touch</h3>
+                    <span class="ft-underline"></span>
+
+                    <div class="ft-contact-items">
+                        <div class="ft-contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Lilongwe, Malawi</span>
+                        </div>
+                        <div class="ft-contact-item">
+                            <i class="fab fa-whatsapp"></i>
+                            <a href="https://wa.me/265992756277" target="_blank">+265 992 756 277</a>
+                        </div>
+                        <div class="ft-contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Mon – Sat: 8:00 AM – 8:00 PM<br>Sunday: 10:00 AM – 6:00 PM</span>
+                        </div>
+                    </div>
+
+                    <div class="ft-newsletter">
+                        <h4 class="ft-newsletter-title">Stay Stylish</h4>
+                        <p class="ft-newsletter-subtitle">Get style tips & new arrivals first.</p>
+                        <div class="ft-newsletter-form">
+                            <input type="email" placeholder="Your email address" class="ft-email-input">
+                            <button class="ft-newsletter-btn">Join</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="ft-bottom-bar">
+                <p class="ft-copyright">© 2025 LC Fashion Closet. All rights reserved.</p>
+                <p class="ft-credit">Designed with <span class="ft-heart">♥</span> for Malawi Fashion</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/265992756277" class="hero2-whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Auto-hide page loader after 2 seconds
+        setTimeout(function() {
+            document.getElementById('page-loader').classList.add('hide');
+        }, 2000);
+
+        // Book Session Form Validation
+        document.getElementById('bs-submit-btn').addEventListener('click', function() {
+            const fullname = document.getElementById('bs-fullname');
+            const phone = document.getElementById('bs-phone');
+            const date = document.getElementById('bs-date');
+
+            let isValid = true;
+
+            // Clear previous errors
+            [fullname, phone, date].forEach(field => {
+                field.classList.remove('error');
+            });
+
+            // Validate Full Name
+            if (!fullname.value.trim()) {
+                fullname.classList.add('error');
+                isValid = false;
+            }
+
+            // Validate Phone
+            if (!phone.value.trim()) {
+                phone.classList.add('error');
+                isValid = false;
+            }
+
+            // Validate Date
+            if (!date.value) {
+                date.classList.add('error');
+                isValid = false;
+            }
+
+            if (isValid) {
+                // Hide form fields with fade out
+                const formFields = document.getElementById('session-form-fields');
+                const successMsg = document.getElementById('session-success');
+
+                formFields.style.opacity = '0';
+                formFields.style.transition = 'opacity 0.3s';
+
+                setTimeout(function() {
+                    formFields.style.display = 'none';
+                    successMsg.style.display = 'block';
+                    successMsg.style.opacity = '0';
+                    successMsg.style.transition = 'opacity 0.6s';
+
+                    setTimeout(function() {
+                        successMsg.style.opacity = '1';
+                    }, 50);
+                }, 300);
+            }
+        });
+
+        // Mega Categories Menu JavaScript
+        (function() {
+            const catTrigger = document.getElementById('catTrigger');
+            const catDropdown = document.getElementById('catDropdown');
+            const sidebarItems = document.querySelectorAll('.mc-sidebar-item');
+            const panels = document.querySelectorAll('.mc-panel');
+            let isOpen = false;
+
+            // Toggle dropdown
+            catTrigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const navHeight = document.querySelector('nav').offsetHeight;
+                catDropdown.style.top = navHeight + 'px';
+
+                if (isOpen) {
+                    closeDropdown();
+                } else {
+                    openDropdown();
+                }
+            });
+
+            function openDropdown() {
+                catDropdown.style.display = 'block';
+                catTrigger.classList.add('open');
+                isOpen = true;
+
+                // Show default panel (women's fashion)
+                showPanel('cat-women');
+            }
+
+            function closeDropdown() {
+                catDropdown.style.display = 'none';
+                catTrigger.classList.remove('open');
+                isOpen = false;
+            }
+
+            // Sidebar item hover/click
+            sidebarItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    if (window.innerWidth > 768) {
+                        const categoryId = this.id;
+                        showPanel(categoryId);
+                    }
+                });
+
+                item.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        const categoryId = this.id;
+                        const isActive = this.classList.contains('active');
+
+                        // Close all panels first
+                        panels.forEach(panel => panel.classList.remove('active'));
+                        sidebarItems.forEach(item => item.classList.remove('active'));
+
+                        if (!isActive) {
+                            // Open this panel
+                            this.classList.add('active');
+                            const panel = document.querySelector(`[data-for="${categoryId}"]`);
+                            if (panel) {
+                                panel.classList.add('active');
+                            }
+                        }
+                    }
+                });
+            });
+
+            function showPanel(categoryId) {
+                // Update sidebar active state
+                sidebarItems.forEach(item => item.classList.remove('active'));
+                const activeItem = document.getElementById(categoryId);
+                if (activeItem) {
+                    activeItem.classList.add('active');
+                }
+
+                // Show corresponding panel
+                panels.forEach(panel => panel.classList.remove('active'));
+                const panel = document.querySelector(`[data-for="${categoryId}"]`);
+                if (panel) {
+                    panel.classList.add('active');
+                }
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!catDropdown.contains(e.target) && !catTrigger.contains(e.target)) {
+                    closeDropdown();
+                }
+            });
+
+            // Close on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isOpen) {
+                    closeDropdown();
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (isOpen) {
+                    const navHeight = document.querySelector('nav').offsetHeight;
+                    catDropdown.style.top = navHeight + 'px';
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

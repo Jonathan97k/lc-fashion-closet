@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | LC Fashion Closet</title>
+    <meta name="description" content="LC Fashion Closet Admin Panel - Manage products and content">
+    <meta name="author" content="Logner Chimalizeni">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0D0D0D;
+            --accent-color: #C9A84C;
+            --light-gold: #F0D080;
+            --white: #FFFFFF;
+            --light-bg: #F9F6F0;
+            --heading-font: 'Playfair Display', serif;
+            --body-font: 'Lato', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background: var(--light-bg);
+            color: var(--primary-color);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--heading-font);
+        }
+
+        /* Lock Screen */
+        .adm-lock-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: #0D0D0D;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .adm-lock-card {
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid rgba(201,168,76,0.2);
+            text-align: center;
+        }
+
+        .adm-lock-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #C9A84C;
+            margin-bottom: 6px;
+        }
+
+        .adm-lock-subtitle {
+            font-family: 'Lato', sans-serif;
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 35px;
+        }
+
+        .adm-lock-icon {
+            font-size: 36px;
+            color: #C9A84C;
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .adm-password-input {
+            width: 100%;
+            padding: 13px 18px;
+            border-radius: 8px;
+            border: 1.5px solid rgba(201,168,76,0.25);
+            background: #0D0D0D;
+            color: #FFFFFF;
+            font-family: 'Lato', sans-serif;
+            font-size: 15px;
+            outline: none;
+            box-sizing: border-box;
+            text-align: center;
+            letter-spacing: 4px;
+            margin-bottom: 16px;
+        }
+
+        .adm-password-input:focus {
+            border-color: #C9A84C;
+        }
+
+        .adm-password-input::placeholder {
+            color: rgba(255,255,255,0.35);
+        }
+
+        .adm-unlock-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #C9A84C, #F0D080);
+            color: #0D0D0D;
+            font-family: 'Lato', sans-serif;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 1px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .adm-unlock-btn:hover {
+            opacity: 0.9;
+        }
+
+        .adm-lock-error {
+            display: none;
+            margin-top: 12px;
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            color: #e74c3c;
+        }
+
+        .adm-password-input.shake {
+            animation: adm-shake 0.3s;
+        }
+
+        @keyframes adm-shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        /* Admin Panel */
+        .adm-admin-panel {
+            display: none;
+            min-height: 100vh;
+            background: #F9F6F0;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .adm-topbar {
+            background: #0D0D0D;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .adm-topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .adm-site-link {
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+        }
+
+        .adm-site-link:hover {
+            color: #C9A84C;
+        }
+
+        .adm-topbar-title {
+            font-family: 'Playfair Display', serif;
+            color: #C9A84C;
+            font-size: 1.2rem;
+        }
+
+        .adm-logout-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            background: transparent;
+            border: 1px solid #C9A84C;
+            color: #C9A84C;
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .adm-logout-btn:hover {
+            background: #C9A84C;
+            color: #0D0D0D;
+        }
+
+        .adm-main-area {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 30px;
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        /* Add Product Form */
+        .adm-form-card {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 36px 32px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            border: 1px solid rgba(201,168,76,0.1);
+            position: sticky;
+            top: 30px;
+        }
+
+        .adm-form-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #0D0D0D;
+            margin-bottom: 6px;
+        }
+
+        .adm-form-accent {
+            width: 40px;
+            height: 3px;
+            background: #C9A84C;
+            margin-bottom: 28px;
+            display: block;
+        }
+
+        .adm-field-group {
+            margin-bottom: 20px;
+        }
+
+        .adm-field-label {
+            font-family: 'Lato', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: #C9A84C;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        .adm-field-input,
+        .adm-field-select,
+        .adm-field-textarea {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 8px;
+            border: 1.5px solid #e0e0e0;
+            background: #fff;
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            color: #0D0D0D;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .adm-field-input:focus,
+        .adm-field-select:focus,
+        .adm-field-textarea:focus {
+            border-color: #C9A84C;
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+        }
+
+        .adm-field-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .adm-price-note {
+            font-size: 11px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .adm-upload-area {
+            border: 2px dashed rgba(201,168,76,0.4);
+            border-radius: 10px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #F9F6F0;
+            transition: 0.3s;
+        }
+
+        .adm-upload-area:hover {
+            border-color: #C9A84C;
+            background: #fff;
+        }
+
+        .adm-upload-icon {
+            font-size: 28px;
+            color: #C9A84C;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .adm-upload-text {
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .adm-upload-subtext {
+            font-size: 11px;
+            color: #bbb;
+            margin-top: 4px;
+        }
+
+        .adm-image-upload {
+            display: none;
+        }
+
+        .adm-image-preview {
+            display: none;
+            margin-top: 14px;
+            text-align: center;
+        }
+
+        .adm-preview-img {
+            max-width: 100%;
+            max-height: 180px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid rgba(201,168,76,0.3);
+        }
+
+        .adm-remove-image {
+            font-size: 12px;
+            color: #e74c3c;
+            cursor: pointer;
+            margin-top: 8px;
+            display: block;
+        }
+
+        .adm-save-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #C9A84C, #F0D080);
+            color: #0D0D0D;
+            font-family: 'Lato', sans-serif;
+            font-weight: 800;
+            font-size: 15px;
+            letter-spacing: 1px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .adm-save-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .adm-save-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #0D0D0D;
+            color: #C9A84C;
+            padding: 14px 24px;
+            border-radius: 8px;
+            border-left: 4px solid #C9A84C;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            display: none;
+            z-index: 9999;
+        }
+
+        /* Product List */
+        .adm-list-panel {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .adm-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .adm-list-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #0D0D0D;
+        }
+
+        .adm-product-count {
+            background: #C9A84C;
+            color: #0D0D0D;
+            font-family: 'Lato', sans-serif;
+            font-weight: 800;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .adm-list-accent {
+            width: 40px;
+            height: 3px;
+            background: #C9A84C;
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .adm-search-bar {
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1.5px solid #e0e0e0;
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 16px;
+        }
+
+        .adm-search-bar:focus {
+            border-color: #C9A84C;
+        }
+
+        .adm-filter-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .adm-filter-btn {
+            padding: 7px 16px;
+            border-radius: 20px;
+            border: 1.5px solid #e0e0e0;
+            background: #fff;
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            color: #555;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .adm-filter-btn.active,
+        .adm-filter-btn:hover {
+            background: #0D0D0D;
+            color: #C9A84C;
+            border-color: #0D0D0D;
+        }
+
+        .adm-product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .adm-empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #bbb;
+        }
+
+        .adm-empty-icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .adm-empty-text {
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+        }
+
+        .adm-product-card {
+            background: #F9F6F0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #eee;
+            transition: 0.3s;
+        }
+
+        .adm-product-card:hover {
+            border-color: #C9A84C;
+        }
+
+        .adm-product-image {
+            height: 140px;
+            overflow: hidden;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .adm-product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .adm-no-image-icon {
+            color: rgba(201,168,76,0.3);
+            font-size: 32px;
+        }
+
+        .adm-product-body {
+            padding: 12px;
+        }
+
+        .adm-product-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: #0D0D0D;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .adm-product-category {
+            font-size: 11px;
+            color: #C9A84C;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .adm-product-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            color: #0D0D0D;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .adm-delete-btn {
+            width: 100%;
+            padding: 7px;
+            border-radius: 6px;
+            background: transparent;
+            border: 1.5px solid #e74c3c;
+            color: #e74c3c;
+            font-family: 'Lato', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .adm-delete-btn:hover {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .adm-main-area {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .adm-form-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .adm-lock-card {
+                padding: 40px 30px;
+                max-width: 350px;
+            }
+
+            .adm-topbar {
+                padding: 12px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .adm-topbar-left {
+                order: 1;
+            }
+
+            .adm-main-area {
+                padding: 30px 20px;
+            }
+
+            .adm-form-card {
+                padding: 28px 24px;
+            }
+
+            .adm-list-panel {
+                padding: 24px;
+            }
+
+            .adm-product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .adm-product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .adm-filter-bar {
+                gap: 8px;
+            }
+
+            .adm-filter-btn {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Lock Screen -->
+    <div id="lockScreen" class="adm-lock-screen">
+        <div class="adm-lock-card">
+            <div class="adm-lock-logo">LC Fashion Closet</div>
+            <div class="adm-lock-subtitle">Admin Panel</div>
+            <i class="fas fa-lock adm-lock-icon"></i>
+            <input type="password" id="passwordInput" class="adm-password-input" placeholder="Enter password">
+            <button id="unlockBtn" class="adm-unlock-btn">UNLOCK ADMIN PANEL</button>
+            <div id="lockError" class="adm-lock-error">Incorrect password. Try again.</div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="adm-admin-panel">
+        <!-- Topbar -->
+        <div class="adm-topbar">
+            <div class="adm-topbar-left">
+                <a href="index.html" class="adm-site-link">← View Live Site</a>
+                <div class="adm-topbar-title">LC Fashion Closet — Admin Panel</div>
+            </div>
+            <button id="logoutBtn" class="adm-logout-btn">Logout</button>
+        </div>
+
+        <!-- Main Area -->
+        <div class="adm-main-area">
+            <!-- Add Product Form -->
+            <div class="adm-form-card">
+                <h2 class="adm-form-heading">Add New Product</h2>
+                <span class="adm-form-accent"></span>
+
+                <div class="adm-field-group">
+                    <label class="adm-field-label">Product Name</label>
+                    <input type="text" id="productName" class="adm-field-input" placeholder="e.g. Elegant Wrap Dress">
+                </div>
+
+                <div class="adm-field-group">
+                    <label class="adm-field-label">Price</label>
+                    <input type="number" id="productPrice" class="adm-field-input" placeholder="e.g. 18500">
+                    <div class="adm-price-note">Enter in MK (Malawian Kwacha)</div>
+                </div>
+
+                <div class="adm-field-group">
+                    <label class="adm-field-label">Category</label>
+                    <select id="productCategory" class="adm-field-select">
+                        <option value="" disabled selected>Select category...</option>
+                        <option value="Women's Fashion">Women's Fashion</option>
+                        <option value="Men's Fashion">Men's Fashion</option>
+                        <option value="Bags & Purses">Bags & Purses</option>
+                        <option value="Shoes & Heels">Shoes & Heels</option>
+                        <option value="Jewellery & Sets">Jewellery & Sets</option>
+                        <option value="Ankara & African Print">Ankara & African Print</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Beauty & Lifestyle">Beauty & Lifestyle</option>
+                    </select>
+                </div>
+
+                <div class="adm-field-group">
+                    <label class="adm-field-label">Badge</label>
+                    <select id="productBadge" class="adm-field-select">
+                        <option value="No Badge">No Badge</option>
+                        <option value="New Arrival">New Arrival</option>
+                        <option value="Bestseller">Bestseller</option>
+                        <option value="Hot">Hot</option>
+                        <option value="Sale">Sale</option>
+                    </select>
+                </div>
+
+                <div class="adm-field-group">
+                    <label class="adm-field-label">Short Description</label>
+                    <textarea id="productDescription" class="adm-field-textarea" rows="3" placeholder="Brief product description..."></textarea>
+                </div>
+
+                <div class="adm-field-group">
+                    <label class="adm-field-label">PRODUCT IMAGE</label>
+                    <div class="adm-upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt adm-upload-icon"></i>
+                        <div class="adm-upload-text">Click to upload image</div>
+                        <div class="adm-upload-subtext">JPG, PNG or WEBP — max 2MB</div>
+                        <input type="file" id="imageUpload" class="adm-image-upload" accept="image/*">
+                    </div>
+                    <div id="imagePreview" class="adm-image-preview">
+                        <img id="previewImg" class="adm-preview-img" alt="Product preview">
+                        <span id="removeImage" class="adm-remove-image">Remove</span>
+                    </div>
+                </div>
+
+                <div class="adm-field-group">
+                    <label class="adm-field-label">WHATSAPP ORDER LINK (auto-set)</label>
+                    <input type="text" id="productWhatsapp" class="adm-field-input" value="https://wa.me/265992756277" readonly style="background: #f5f5f5; color: #999; cursor: not-allowed;">
+                </div>
+
+                <button id="saveProductBtn" class="adm-save-btn">✦  Save Product  ✦</button>
+            </div>
+
+            <!-- Product List -->
+            <div class="adm-list-panel">
+                <div class="adm-list-header">
+                    <h2 class="adm-list-title">Saved Products</h2>
+                    <span id="productCount" class="adm-product-count">0</span>
+                </div>
+                <span class="adm-list-accent"></span>
+
+                <input type="text" id="productSearch" class="adm-search-bar" placeholder="Search products...">
+
+                <div class="adm-filter-bar">
+                    <button class="adm-filter-btn active" data-filter="All">All</button>
+                    <button class="adm-filter-btn" data-filter="Women's Fashion">Women's</button>
+                    <button class="adm-filter-btn" data-filter="Men's Fashion">Men's</button>
+                    <button class="adm-filter-btn" data-filter="Bags & Purses">Bags</button>
+                    <button class="adm-filter-btn" data-filter="Shoes & Heels">Shoes</button>
+                    <button class="adm-filter-btn" data-filter="Jewellery & Sets">Jewellery</button>
+                    <button class="adm-filter-btn" data-filter="Ankara & African Print">Ankara</button>
+                    <button class="adm-filter-btn" data-filter="Accessories">Accessories</button>
+                    <button class="adm-filter-btn" data-filter="Beauty & Lifestyle">Beauty</button>
+                </div>
+
+                <div id="adminProductGrid" class="adm-product-grid">
+                    <div id="emptyState" class="adm-empty-state">
+                        <i class="fas fa-box-open adm-empty-icon"></i>
+                        <div class="adm-empty-text">No products yet. Add your first product!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="saveToast" class="adm-save-toast">✅ Product saved successfully!</div>
+
+    <script>
+        // Password Protection
+        const lockScreen = document.getElementById('lockScreen');
+        const adminPanel = document.getElementById('adminPanel');
+        const passwordInput = document.getElementById('passwordInput');
+        const unlockBtn = document.getElementById('unlockBtn');
+        const lockError = document.getElementById('lockError');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Check if already authenticated
+        if (sessionStorage.getItem('lc_admin_auth') === 'true') {
+            lockScreen.style.display = 'none';
+            adminPanel.style.display = 'block';
+            renderAdminProducts();
+        }
+
+        // Unlock functionality
+        function unlockAdmin() {
+            const password = passwordInput.value;
+            if (password === 'LCAdmin2025') {
+                sessionStorage.setItem('lc_admin_auth', 'true');
+                lockScreen.style.display = 'none';
+                adminPanel.style.display = 'block';
+                renderAdminProducts();
+            } else {
+                lockError.style.display = 'block';
+                passwordInput.classList.add('shake');
+                setTimeout(() => {
+                    passwordInput.classList.remove('shake');
+                }, 300);
+            }
+        }
+
+        unlockBtn.addEventListener('click', unlockAdmin);
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                unlockAdmin();
+            }
+        });
+
+        // Logout functionality
+        logoutBtn.addEventListener('click', function() {
+            sessionStorage.removeItem('lc_admin_auth');
+            location.reload();
+        });
+
+        // Product Management
+        let products = JSON.parse(localStorage.getItem('lc_products')) || [];
+        let currentFilter = 'All';
+        let currentSearch = '';
+
+        const productName = document.getElementById('productName');
+        const productPrice = document.getElementById('productPrice');
+        const productCategory = document.getElementById('productCategory');
+        const productBadge = document.getElementById('productBadge');
+        const productDescription = document.getElementById('productDescription');
+        const imageUpload = document.getElementById('imageUpload');
+        const uploadArea = document.getElementById('uploadArea');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImg = document.getElementById('previewImg');
+        const removeImage = document.getElementById('removeImage');
+        const saveProductBtn = document.getElementById('saveProductBtn');
+        const saveToast = document.getElementById('saveToast');
+        const productSearch = document.getElementById('productSearch');
+        const filterBtns = document.querySelectorAll('.adm-filter-btn');
+
+        // Image upload
+        uploadArea.addEventListener('click', function() {
+            imageUpload.click();
+        });
+
+        imageUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.size <= 2 * 1024 * 1024) { // 2MB limit
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        removeImage.addEventListener('click', function() {
+            imageUpload.value = '';
+            imagePreview.style.display = 'none';
+            previewImg.src = '';
+        });
+
+        // Save product
+        saveProductBtn.addEventListener('click', saveProduct);
+
+        function saveProduct() {
+            const name = productName.value.trim();
+            const price = parseInt(productPrice.value);
+            const category = productCategory.value;
+            const badge = productBadge.value;
+            const description = productDescription.value.trim();
+
+            // Validation
+            let isValid = true;
+            [productName, productPrice, productCategory].forEach(field => {
+                field.classList.remove('shake');
+            });
+
+            if (!name) {
+                productName.classList.add('shake');
+                isValid = false;
+            }
+            if (!price || price <= 0) {
+                productPrice.classList.add('shake');
+                isValid = false;
+            }
+            if (!category) {
+                productCategory.classList.add('shake');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                setTimeout(() => {
+                    [productName, productPrice, productCategory].forEach(field => {
+                        field.classList.remove('shake');
+                    });
+                }, 300);
+                return;
+            }
+
+            // Create product object
+            const product = {
+                id: Date.now().toString(),
+                name: name,
+                price: price,
+                category: category,
+                badge: badge,
+                description: description,
+                image: previewImg.src || '',
+                whatsapp: 'https://wa.me/265992756277',
+                dateAdded: new Date().toISOString()
+            };
+
+            // Save to localStorage
+            products.push(product);
+            localStorage.setItem('lc_products', JSON.stringify(products));
+
+            // Show toast
+            saveToast.style.display = 'block';
+            setTimeout(() => {
+                saveToast.style.display = 'none';
+            }, 3000);
+
+            // Reset form
+            productName.value = '';
+            productPrice.value = '';
+            productCategory.value = '';
+            productBadge.value = 'No Badge';
+            productDescription.value = '';
+            imagePreview.style.display = 'none';
+            previewImg.src = '';
+
+            // Re-render
+            renderAdminProducts();
+        }
+
+        // Render products
+        function renderAdminProducts() {
+            const filteredProducts = products.filter(product => {
+                const matchesFilter = currentFilter === 'All' || product.category === currentFilter;
+                const matchesSearch = currentSearch === '' ||
+                    product.name.toLowerCase().includes(currentSearch.toLowerCase());
+                return matchesFilter && matchesSearch;
+            });
+
+            const productCount = document.getElementById('productCount');
+            productCount.textContent = filteredProducts.length;
+
+            const grid = document.getElementById('adminProductGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (filteredProducts.length === 0) {
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            grid.innerHTML = filteredProducts.map(product => `
+                <div class="adm-product-card" data-id="${product.id}">
+                    <div class="adm-product-image">
+                        ${product.image ?
+                            `<img src="${product.image}" alt="${product.name}">` :
+                            '<i class="fas fa-image adm-no-image-icon"></i>'
+                        }
+                    </div>
+                    <div class="adm-product-body">
+                        <div class="adm-product-name">${product.name}</div>
+                        <div class="adm-product-category">${product.category}</div>
+                        <div class="adm-product-price">MK ${product.price.toLocaleString()}</div>
+                        <button class="adm-delete-btn" onclick="deleteProduct('${product.id}')">🗑 Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Delete product
+        function deleteProduct(id) {
+            if (confirm('Remove this product?')) {
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('lc_products', JSON.stringify(products));
+                renderAdminProducts();
+            }
+        }
+
+        // Make deleteProduct global
+        window.deleteProduct = deleteProduct;
+
+        // Search functionality
+        productSearch.addEventListener('input', function() {
+            currentSearch = this.value;
+            renderAdminProducts();
+        });
+
+        // Filter functionality
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                renderAdminProducts();
+            });
+        });
+
+        // Initial render
+        renderAdminProducts();
+    </script>
+</body>
+</html>

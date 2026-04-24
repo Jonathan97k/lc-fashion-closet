@@ -151,7 +151,7 @@
             transform: translateY(-1px);
         }
 
-        .hamburger {
+        .nav-hamburger {
             display: none;
             color: var(--accent-color);
             font-size: 1.5rem;
@@ -1008,7 +1008,7 @@
                 min-height: 44px;
             }
 
-            .hamburger {
+            .nav-hamburger {
                 position: absolute;
                 top: 20px;
                 right: 20px;
@@ -1116,40 +1116,51 @@
   }
 }
 
-.nav-mobile-active { color: #C9A84C !important; }
-
-.nav-hamburger { display: none; }
-
-.nav-mobile-menu {
-  display: none;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-20px);
-  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-}
-
-.nav-mobile-menu.is-open {
-  display: flex !important;
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
 
 .hero2-whatsapp-float { z-index: 9999 !important; }
 
 @media (max-width: 768px) {
-  [style*="position:fixed"][style*="bottom"],
-  .wa-float, [class*="wa-float"] {
+  .hero2-whatsapp-float {
     bottom: 24px !important;
     right: 20px !important;
     width: 56px !important;
     height: 56px !important;
   }
 }
+
+.nav-hamburger { display: none; }
+
+.nav-mobile-menu {
+  display: none;
+}
+
+.nav-mobile-menu.is-open {
+  display: flex !important;
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (max-width: 768px) {
+  .nav-hamburger { display: flex !important; align-items: center; }
   .nav-links { display: none !important; }
   .cat-trigger { display: none !important; }
   .cta-button { display: none !important; }
-  .nav-hamburger { display: flex !important; align-items: center !important; }
+  .navbar {
+    flex-direction: row !important;
+    height: 64px !important;
+    padding: 0 20px !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  .nav-logo img { display: none !important; }
+  .nav-logo::after {
+    content: "LC Fashion Closet";
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #C9A84C;
+    white-space: nowrap;
+  }
 }
     </style>
 </head>

@@ -151,7 +151,7 @@
             transform: translateY(-1px);
         }
 
-        .hamburger {
+        .nav-hamburger {
             display: none;
             color: var(--accent-color);
             font-size: 1.5rem;
@@ -1234,55 +1234,7 @@
             font-size: 14px;
         }
 
-        /* Navbar mobile */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                height: auto;
-                padding: 15px 20px;
-            }
 
-            .navbar > div:first-child {
-                width: 100%;
-                justify-content: space-between;
-                margin-bottom: 10px;
-            }
-
-            .cat-trigger {
-                margin-right: 0;
-                margin-bottom: 0;
-            }
-
-            .nav-links {
-                width: 100%;
-                justify-content: center;
-                margin: 15px 0;
-                flex-wrap: wrap;
-            }
-
-            .nav-links a {
-                display: inline-block;
-                margin: 4px 8px;
-            }
-
-            .cta-button {
-                width: 100%;
-                margin-top: 10px;
-                min-height: 44px;
-            }
-
-            .hamburger {
-                position: absolute;
-                top: 20px;
-                right: 20px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .cta-button {
-                width: 100%;
-            }
-        }
 
         /* Featured Products mobile */
         @media (max-width: 768px) {
@@ -1400,53 +1352,47 @@
 .hero2-whatsapp-float { z-index: 9999 !important; }
 
 @media (max-width: 768px) {
-  [style*="position:fixed"][style*="bottom"],
-  .wa-float, [class*="wa-float"] {
+  .hero2-whatsapp-float {
     bottom: 24px !important;
     right: 20px !important;
     width: 56px !important;
     height: 56px !important;
   }
 }
-  .nav-links { display: none !important; }
-  .cat-trigger { display: none !important; }
-  .cta-button { display: none !important; }
-  .nav-hamburger { display: flex !important; align-items: center !important; }
-}
-
-@media (max-width: 1024px) {
-  [class*="fp-tabs"], [class*="dyn-tabs"] {
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    scrollbar-width: none !important;
-    gap: 8px !important;
-  }
-}
-
-.nav-mobile-active { color: #C9A84C !important; }
 
 .nav-hamburger { display: none; }
 
 .nav-mobile-menu {
   display: none;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-20px);
-  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
 .nav-mobile-menu.is-open {
   display: flex !important;
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
 }
 
 @media (max-width: 768px) {
-  .nav-hamburger { display: flex !important; }
-  .nav-mobile-menu.is-open { display: flex !important; }
-  .nav-mobile-menu a:hover { color: #C9A84C !important; }
+  .nav-hamburger { display: flex !important; align-items: center; }
+  .nav-links { display: none !important; }
+  .cat-trigger { display: none !important; }
+  .cta-button { display: none !important; }
+  .navbar {
+    flex-direction: row !important;
+    height: 64px !important;
+    padding: 0 20px !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  .nav-logo img { display: none !important; }
+  .nav-logo::after {
+    content: "LC Fashion Closet";
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #C9A84C;
+    white-space: nowrap;
+  }
 }
     </style>
 </head>

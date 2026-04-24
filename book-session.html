@@ -1227,7 +1227,7 @@
             <a href="contact.html">Contact</a>
         </div>
         <button class="cta-button">Book a Session</button>
-        <button class="nav-hamburger" aria-label="Open menu" style="background:none; border:none; cursor:pointer; font-size:1.5rem; color:#C9A84C; line-height:1; padding:8px; z-index:1001;">☰</button>
+        <button type="button" class="nav-hamburger" aria-label="Open menu" style="background:none; border:none; cursor:pointer; font-size:1.5rem; color:#C9A84C; line-height:1; padding:8px; z-index:1001;">☰</button>
     </nav>
 
     <div class="nav-mobile-menu">
@@ -1656,6 +1656,8 @@
   var mobileClose = document.querySelector('.nav-mobile-close');
 
   if (!hamburger || !mobileMenu) return;
+
+  mobileMenu.style.display = 'none';
 
   hamburger.addEventListener('click', function(e) {
     e.stopPropagation();

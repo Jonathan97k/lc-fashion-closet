@@ -159,14 +159,27 @@
         }
 
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            .hamburger {
-                display: block;
+            .nav-hamburger { display: flex !important; align-items: center; }
+            .nav-links { display: none !important; }
+            .cat-trigger { display: none !important; }
+            .cta-button { display: none !important; }
+            .navbar {
+                flex-direction: row !important;
+                height: 64px !important;
+                padding: 0 20px !important;
+                justify-content: space-between !important;
+                align-items: center !important;
             }
             .nav-logo img {
-                height: 42px;
+                display: none !important;
+            }
+            .nav-logo::after {
+                content: "LC Fashion Closet";
+                font-family: 'Playfair Display', serif;
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: #C9A84C;
+                white-space: nowrap;
             }
         }
 
@@ -1834,49 +1847,38 @@
             document.getElementById('page-loader').classList.add('hide');
         }, 2000);
 
-        // Hamburger Menu
-        const hamburger = document.querySelector('.nav-hamburger');
-        const mobileMenu = document.querySelector('.nav-mobile-menu');
-        const mobileClose = document.querySelector('.nav-mobile-close');
+        // Mobile Menu
+        (function() {
+          const hamburger = document.querySelector('.nav-hamburger');
+          const mobileMenu = document.querySelector('.nav-mobile-menu');
+          const mobileClose = document.querySelector('.nav-mobile-close');
 
-        if (hamburger && mobileMenu) {
-          hamburger.addEventListener('click', (e) => {
+          if (!hamburger || !mobileMenu) return;
+
+          // Start hidden
+          mobileMenu.style.display = 'none';
+
+          hamburger.addEventListener('click', function(e) {
             e.stopPropagation();
-            mobileMenu.classList.add('is-open');
             mobileMenu.style.display = 'flex';
             document.body.style.overflow = 'hidden';
           });
-          mobileClose.addEventListener('click', (e) => {
-            e.stopPropagation();
-            mobileMenu.classList.remove('is-open');
-            mobileMenu.style.display = 'none';
-            document.body.style.overflow = '';
-          });
-          mobileMenu.addEventListener('click', () => {
-            mobileMenu.classList.remove('is-open');
-            mobileMenu.style.display = 'none';
-            document.body.style.overflow = '';
-          });
-          mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', (e) => {
+
+          if (mobileClose) {
+            mobileClose.addEventListener('click', function(e) {
               e.stopPropagation();
-              mobileMenu.classList.remove('is-open');
-              mobileMenu.style.display = 'none';
-              document.body.style.overflow = '';
-            });
-          });
-          const catLink = document.querySelector('.nav-mobile-categories');
-          if (catLink) {
-            catLink.addEventListener('click', (e) => {
-              e.stopPropagation();
-              const catTrigger = document.getElementById('catTrigger');
-              if (catTrigger) catTrigger.click();
-              mobileMenu.classList.remove('is-open');
               mobileMenu.style.display = 'none';
               document.body.style.overflow = '';
             });
           }
-        }
+
+          mobileMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+              mobileMenu.style.display = 'none';
+              document.body.style.overflow = '';
+            });
+          });
+        })();
 
         // Mega Categories Menu JavaScript
         (function() {

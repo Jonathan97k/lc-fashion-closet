@@ -1386,20 +1386,16 @@
 
 @media (max-width: 768px) {
   .nav-links, .nav-menu { display: none !important; }
-  .mc-toggle, [class*="categories-btn"], [class*="all-cat"] { display: none !important; }
+  .cat-trigger, .mc-toggle, [class*="categories-btn"], [class*="all-cat"] { display: none !important; }
+  .cta-button { display: none !important; }
   nav, header {
     padding: 0 20px !important;
-    height: 64px !important;
+    height: 60px !important;
     justify-content: space-between !important;
+    align-items: center !important;
   }
   .nav-logo img, nav img[alt="LC Fashion Closet"] {
     height: 38px !important;
-  }
-  nav a[href="book-session.html"]:last-child,
-  .nav-book-btn, [class*="book-btn"] {
-    padding: 10px 16px !important;
-    font-size: 0.75rem !important;
-    white-space: nowrap !important;
   }
 }
 
@@ -1463,21 +1459,17 @@
             <a href="contact.html">Contact</a>
         </div>
         <button class="cta-button">Book a Session</button>
-        <button class="nav-hamburger" aria-label="Open menu" style="display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; z-index:1001;">
-          <span style="display:block; width:24px; height:2px; background:#C9A84C; transition:all 0.3s;"></span>
-          <span style="display:block; width:24px; height:2px; background:#C9A84C; transition:all 0.3s;"></span>
-          <span style="display:block; width:24px; height:2px; background:#C9A84C; transition:all 0.3s;"></span>
-        </button>
+        <button class="nav-hamburger" aria-label="Open menu" style="display:none; background:none; border:none; cursor:pointer; font-size:1.5rem; color:#C9A84C; line-height:1; padding:8px; z-index:1001;">☰</button>
     </nav>
 
     <div class="nav-mobile-menu" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:#0D0D0D; z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:32px;">
       <button class="nav-mobile-close" style="position:absolute; top:24px; right:24px; background:none; border:none; cursor:pointer; color:#C9A84C; font-size:1.8rem; line-height:1;">&times;</button>
-      <a href="index.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Home</a>
-      <a href="products.html" class="nav-mobile-active" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Products</a>
-      <a href="book-session.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Book a Session</a>
-      <a href="about.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">About</a>
-      <a href="contact.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Contact</a>
-      <a href="book-session.html" style="width:100%; display:block; padding:16px 20px; background:#C9A84C; color:#0D0D0D; text-align:center; font-family:Lato,sans-serif; font-size:0.9rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; text-decoration:none; border-radius:8px; margin-top:16px; transition:background 0.2s;">Book a Session</a>
+      <a href="index.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">HOME</a>
+      <a href="products.html" class="nav-mobile-active" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">PRODUCTS</a>
+      <a href="book-session.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">BOOK A SESSION</a>
+      <a href="about.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">ABOUT</a>
+      <a href="contact.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">CONTACT</a>
+      <a href="book-session.html" style="width:100%; display:block; padding:16px 20px; background:#C9A84C; color:#0D0D0D; text-align:center; font-family:Lato,sans-serif; font-size:0.9rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; text-decoration:none; border-radius:8px; margin-top:16px; transition:background 0.2s;">BOOK A SESSION</a>
     </div>
 
     <!-- Mega Categories Dropdown -->

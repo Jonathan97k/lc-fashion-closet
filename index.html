@@ -3421,6 +3421,21 @@
   .nav-hamburger { display: flex !important; }
   .nav-mobile-menu.is-open { display: flex !important; }
   .nav-mobile-menu a:hover { color: #C9A84C !important; }
+
+.nav-mobile-active { color: #C9A84C !important; }
+
+.nav-mobile-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.nav-mobile-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
 }
 
 .cat-track::-webkit-scrollbar { display: none; }
@@ -3688,12 +3703,12 @@
 
     <div class="nav-mobile-menu" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:#0D0D0D; z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:32px;">
       <button class="nav-mobile-close" style="position:absolute; top:24px; right:24px; background:none; border:none; cursor:pointer; color:#C9A84C; font-size:1.8rem; line-height:1;">&times;</button>
-      <a href="index.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Home</a>
+      <a href="index.html" class="nav-mobile-active" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Home</a>
       <a href="products.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Products</a>
       <a href="book-session.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Book a Session</a>
       <a href="about.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">About</a>
       <a href="contact.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Contact</a>
-      <a href="https://wa.me/265992756277" style="display:inline-flex; align-items:center; gap:8px; background:#C9A84C; color:#0D0D0D; font-family:Lato,sans-serif; font-size:0.85rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:14px 32px; border-radius:50px; text-decoration:none; margin-top:16px;">Book on WhatsApp</a>
+      <a href="book-session.html" style="width:100%; display:block; padding:16px 20px; background:#C9A84C; color:#0D0D0D; text-align:center; font-family:Lato,sans-serif; font-size:0.9rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; text-decoration:none; border-radius:8px; margin-top:16px; transition:background 0.2s;">Book a Session</a>
     </div>
 
     <!-- Mega Categories Dropdown -->
@@ -4424,6 +4439,35 @@
                 }, 300);
             }
         });
+
+        // Hamburger Menu
+        const hamburger = document.querySelector('.nav-hamburger');
+        const mobileMenu = document.querySelector('.nav-mobile-menu');
+        const mobileClose = document.querySelector('.nav-mobile-close');
+
+        if (hamburger && mobileMenu) {
+          hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+          });
+          mobileClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.remove('is-open');
+            document.body.style.overflow = '';
+          });
+          mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('is-open');
+            document.body.style.overflow = '';
+          });
+          mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+              e.stopPropagation();
+              mobileMenu.classList.remove('is-open');
+              document.body.style.overflow = '';
+            });
+          });
+        }
 
         // Categories Drag-to-Scroll
         const catTrack = document.querySelector('.cat-track');

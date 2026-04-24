@@ -1221,125 +1221,22 @@
             .ft-main-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 40px;
-            }
-        }
-
-        @media (max-width: 560px) {
-            .ft-main-grid {
-                grid-template-columns: 1fr;
-                gap: 35px;
-            }
-
-            .ft-bottom-bar {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
-        /* Verify no horizontal overflow on extremely small screens */
-        @media (max-width: 320px) {
-            .hero-buttons {
-                flex-direction: column;
-            }
-
-            .btn-primary, .btn-secondary {
-                width: 100%;
-            }
-
-            .tc-card {
-                flex: 0 0 90px;
-                padding: 12px 8px;
-            }
-
-            .tc-card-title {
-                font-size: 0.75rem;
-            }
-
-            .ft-main-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-@media (max-width: 1024px) {
-  .nav-links a, nav a { font-size: 0.85rem; }
-  nav, header nav { padding: 0 24px; }
-}
-
-@media (max-width: 768px) {
-  .nav-links, .nav-menu { display: none !important; }
-  .mc-toggle, [class*="categories-btn"], [class*="all-cat"] { display: none !important; }
-  nav, header {
-    padding: 0 20px !important;
-    height: 64px !important;
-    justify-content: space-between !important;
-  }
-  .nav-logo img, nav img[alt="LC Fashion Closet"] {
-    height: 38px !important;
-  }
-  nav a[href="book-session.html"]:last-child,
-  .nav-book-btn, [class*="book-btn"] {
-    padding: 10px 16px !important;
-    font-size: 0.75rem !important;
-    white-space: nowrap !important;
   }
 }
 
-@media (max-width: 768px) {
-  [class*="contact-grid"],
-  [class*="ct-grid"] {
-    grid-template-columns: 1fr !important;
-    gap: 32px !important;
-  }
-  [class*="ct-map"] iframe,
-  [class*="contact-map"] iframe {
-    width: 100% !important;
-    height: 280px !important;
-  }
-  [class*="ct-info"], [class*="contact-info"] { padding: 0 !important; }
-  [class*="ct-section"],
-  #contact-section { padding: 60px 20px !important; }
+.nav-mobile-active { color: #C9A84C !important; }
+
+.nav-mobile-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
-@media (max-width: 768px) {
-  .hero2-banner,
-  [class*="hero2-"],
-  [style*="padding:160px"][style*="text-align:center"] {
-    padding: 100px 20px 48px !important;
-    min-height: auto !important;
-  }
-  .hero2-banner h1,
-  [class*="hero2-"] h1 {
-    font-size: clamp(1.8rem, 8vw, 2.4rem) !important;
-  }
-}
-
-@media (max-width: 768px) {
-  [style*="position:fixed"][style*="bottom"],
-  .wa-float, [class*="wa-float"] {
-    bottom: 20px !important;
-    right: 16px !important;
-    width: 52px !important;
-    height: 52px !important;
-  }
-}
-
-@media (max-width: 768px) {
-  body { overflow-x: hidden !important; }
-  * { max-width: 100vw; box-sizing: border-box; }
-  h1, h2 { word-break: break-word; }
-  button, a[style*="padding"], input[type="submit"] {
-    min-height: 44px !important;
-  }
-  input, select, textarea { font-size: 16px !important; }
-  ::-webkit-scrollbar { height: 4px; }
-  ::-webkit-scrollbar-thumb { background: #C9A84C; border-radius: 4px; }
-}
-
-@media (max-width: 480px) {
-  body { font-size: 14px; }
-  h2 { font-size: clamp(1.6rem, 7vw, 2.2rem) !important; }
-  [style*="padding:100px"] { padding: 60px 16px !important; }
-  [style*="padding:80px"] { padding: 50px 16px !important; }
+.nav-mobile-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 @media (max-width: 768px) {
@@ -1390,8 +1287,8 @@
       <a href="products.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Products</a>
       <a href="book-session.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Book a Session</a>
       <a href="about.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">About</a>
-      <a href="contact.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Contact</a>
-      <a href="https://wa.me/265992756277" style="display:inline-flex; align-items:center; gap:8px; background:#C9A84C; color:#0D0D0D; font-family:Lato,sans-serif; font-size:0.85rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:14px 32px; border-radius:50px; text-decoration:none; margin-top:16px;">Book on WhatsApp</a>
+      <a href="contact.html" class="nav-mobile-active" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Contact</a>
+      <a href="book-session.html" style="width:100%; display:block; padding:16px 20px; background:#C9A84C; color:#0D0D0D; text-align:center; font-family:Lato,sans-serif; font-size:0.9rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; text-decoration:none; border-radius:8px; margin-top:16px; transition:background 0.2s;">Book a Session</a>
     </div>
 
     <!-- Mega Categories Dropdown -->
@@ -1877,16 +1774,23 @@
         const mobileClose = document.querySelector('.nav-mobile-close');
 
         if (hamburger && mobileMenu) {
-          hamburger.addEventListener('click', () => {
+          hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
             mobileMenu.classList.add('is-open');
             document.body.style.overflow = 'hidden';
           });
-          mobileClose.addEventListener('click', () => {
+          mobileClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.remove('is-open');
+            document.body.style.overflow = '';
+          });
+          mobileMenu.addEventListener('click', () => {
             mobileMenu.classList.remove('is-open');
             document.body.style.overflow = '';
           });
           mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
+              e.stopPropagation();
               mobileMenu.classList.remove('is-open');
               document.body.style.overflow = '';
             });

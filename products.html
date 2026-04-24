@@ -165,6 +165,9 @@
             .hamburger {
                 display: block;
             }
+            .nav-logo img {
+                height: 42px;
+            }
         }
 
         /* All Categories Trigger Button */
@@ -1375,6 +1378,119 @@
                 grid-template-columns: 1fr;
             }
         }
+
+@media (max-width: 1024px) {
+  .nav-links a, nav a { font-size: 0.85rem; }
+  nav, header nav { padding: 0 24px; }
+}
+
+@media (max-width: 768px) {
+  .nav-links, .nav-menu { display: none !important; }
+  .mc-toggle, [class*="categories-btn"], [class*="all-cat"] { display: none !important; }
+  nav, header {
+    padding: 0 20px !important;
+    height: 64px !important;
+    justify-content: space-between !important;
+  }
+  .nav-logo img, nav img[alt="LC Fashion Closet"] {
+    height: 38px !important;
+  }
+  nav a[href="book-session.html"]:last-child,
+  .nav-book-btn, [class*="book-btn"] {
+    padding: 10px 16px !important;
+    font-size: 0.75rem !important;
+    white-space: nowrap !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  [class*="fp-tabs"], [class*="dyn-tabs"] {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    gap: 8px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero2-banner, [class*="hero2"] {
+    padding: 100px 20px 40px !important;
+    min-height: auto !important;
+  }
+  [class*="fp-search"], [class*="dyn-search"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  [class*="fp-grid"], [class*="dyn-grid"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+  [class*="fp-card"], [class*="dyn-card"] { padding: 0 0 12px !important; }
+  [class*="fp-card"] img, [class*="dyn-card"] img { height: 180px !important; }
+  [class*="fp-name"], [class*="dyn-name"] { font-size: 0.9rem !important; }
+  [class*="fp-price"], [class*="dyn-price"] { font-size: 1rem !important; }
+  [class*="fp-tabs"], [class*="dyn-tabs"] {
+    padding: 0 20px !important;
+    gap: 8px !important;
+  }
+  [class*="fp-section"], [class*="dyn-section"] { padding: 40px 16px !important; }
+}
+
+@media (max-width: 480px) {
+  [class*="fp-grid"], [class*="dyn-grid"] {
+    grid-template-columns: 1fr !important;
+  }
+  [class*="fp-card"] img, [class*="dyn-card"] img { height: 220px !important; }
+}
+
+@media (max-width: 768px) {
+  .hero2-banner,
+  [class*="hero2-"],
+  [style*="padding:160px"][style*="text-align:center"] {
+    padding: 100px 20px 48px !important;
+    min-height: auto !important;
+  }
+  .hero2-banner h1,
+  [class*="hero2-"] h1 {
+    font-size: clamp(1.8rem, 8vw, 2.4rem) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  [style*="position:fixed"][style*="bottom"],
+  .wa-float, [class*="wa-float"] {
+    bottom: 20px !important;
+    right: 16px !important;
+    width: 52px !important;
+    height: 52px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  body { overflow-x: hidden !important; }
+  * { max-width: 100vw; box-sizing: border-box; }
+  h1, h2 { word-break: break-word; }
+  button, a[style*="padding"], input[type="submit"] {
+    min-height: 44px !important;
+  }
+  input, select, textarea { font-size: 16px !important; }
+  ::-webkit-scrollbar { height: 4px; }
+  ::-webkit-scrollbar-thumb { background: #C9A84C; border-radius: 4px; }
+}
+
+@media (max-width: 480px) {
+  body { font-size: 14px; }
+  h2 { font-size: clamp(1.6rem, 7vw, 2.2rem) !important; }
+  [style*="padding:100px"] { padding: 60px 16px !important; }
+  [style*="padding:80px"] { padding: 50px 16px !important; }
+}
+
+@media (max-width: 768px) {
+  .nav-hamburger { display: flex !important; }
+  .nav-mobile-menu.is-open { display: flex !important; }
+  .nav-mobile-menu a:hover { color: #C9A84C !important; }
+}
     </style>
 </head>
 <body>
@@ -1385,10 +1501,13 @@
 
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="logo">
-            <span class="main">LC Fashion Closet</span>
-            <span class="sub">by Logner Chimalizeni</span>
-        </div>
+        <a href="index.html" class="nav-logo">
+          <img
+            src="Images/Logo.png"
+            alt="LC Fashion Closet"
+            style="height: 52px; width: auto; object-fit: contain; display: block;"
+          />
+        </a>
         <div class="cat-trigger" id="catTrigger">
             <i class="fas fa-th"></i>
             <span>All Categories</span>
@@ -1402,8 +1521,22 @@
             <a href="contact.html">Contact</a>
         </div>
         <button class="cta-button">Book a Session</button>
-        <i class="fas fa-bars hamburger"></i>
+        <button class="nav-hamburger" aria-label="Open menu" style="display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; z-index:1001;">
+          <span style="display:block; width:24px; height:2px; background:#C9A84C; transition:all 0.3s;"></span>
+          <span style="display:block; width:24px; height:2px; background:#C9A84C; transition:all 0.3s;"></span>
+          <span style="display:block; width:24px; height:2px; background:#C9A84C; transition:all 0.3s;"></span>
+        </button>
     </nav>
+
+    <div class="nav-mobile-menu" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:#0D0D0D; z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:32px;">
+      <button class="nav-mobile-close" style="position:absolute; top:24px; right:24px; background:none; border:none; cursor:pointer; color:#C9A84C; font-size:1.8rem; line-height:1;">&times;</button>
+      <a href="index.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Home</a>
+      <a href="products.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Products</a>
+      <a href="book-session.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Book a Session</a>
+      <a href="about.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">About</a>
+      <a href="contact.html" style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#FFFFFF; text-decoration:none; transition:color 0.2s;">Contact</a>
+      <a href="https://wa.me/265992756277" style="display:inline-flex; align-items:center; gap:8px; background:#C9A84C; color:#0D0D0D; font-family:Lato,sans-serif; font-size:0.85rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:14px 32px; border-radius:50px; text-decoration:none; margin-top:16px;">Book on WhatsApp</a>
+    </div>
 
     <!-- Mega Categories Dropdown -->
     <div id="catDropdown" class="mc-dropdown">
@@ -1759,6 +1892,28 @@
         setTimeout(function() {
             document.getElementById('page-loader').classList.add('hide');
         }, 2000);
+
+        // Hamburger Menu
+        const hamburger = document.querySelector('.nav-hamburger');
+        const mobileMenu = document.querySelector('.nav-mobile-menu');
+        const mobileClose = document.querySelector('.nav-mobile-close');
+
+        if (hamburger && mobileMenu) {
+          hamburger.addEventListener('click', () => {
+            mobileMenu.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+          });
+          mobileClose.addEventListener('click', () => {
+            mobileMenu.classList.remove('is-open');
+            document.body.style.overflow = '';
+          });
+          mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+              mobileMenu.classList.remove('is-open');
+              document.body.style.overflow = '';
+            });
+          });
+        }
 
         // Mega Categories Menu JavaScript
         (function() {

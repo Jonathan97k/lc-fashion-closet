@@ -4,21 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | LC Fashion Closet</title>
-    <meta name="description" content="LC Fashion Closet Admin Panel - Manage products and content">
-    <meta name="author" content="Logner Chimalizeni">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #0D0D0D;
-            --accent-color: #C9A84C;
-            --light-gold: #F0D080;
-            --white: #FFFFFF;
-            --light-bg: #F9F6F0;
-            --heading-font: 'Playfair Display', serif;
-            --body-font: 'Lato', sans-serif;
+            --lc-black: #0D0D0D;
+            --lc-gold: #C9A84C;
+            --lc-light-gold: #F0D080;
+            --lc-white: #FFFFFF;
+            --lc-bg: #F9F6F0;
         }
 
         * {
@@ -26,57 +21,54 @@
         }
 
         body {
-            font-family: var(--body-font);
-            background: var(--light-bg);
-            color: var(--primary-color);
+            font-family: 'Lato', sans-serif;
+            background: var(--lc-bg);
+            color: var(--lc-black);
             margin: 0;
             padding: 0;
             overflow-x: hidden;
         }
 
-        h1, h2, h3, h4, h5, h6 {
-            font-family: var(--heading-font);
-        }
-
-        /* Lock Screen */
-        .adm-lock-screen {
+        /* Password Gate */
+        .adm-gate {
             position: fixed;
             inset: 0;
+            background: var(--lc-black);
             z-index: 99999;
-            background: #0D0D0D;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .adm-lock-card {
-            background: #1a1a1a;
+        .adm-gate-card {
+            background: var(--lc-white);
             border-radius: 16px;
             padding: 50px 40px;
             width: 100%;
             max-width: 400px;
-            border: 1px solid rgba(201,168,76,0.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             text-align: center;
         }
 
-        .adm-lock-logo {
+        .adm-gate-logo {
             font-family: 'Playfair Display', serif;
             font-size: 1.6rem;
-            color: #C9A84C;
+            color: var(--lc-gold);
             margin-bottom: 6px;
         }
 
-        .adm-lock-subtitle {
+        .adm-gate-subtitle {
             font-family: 'Lato', sans-serif;
             font-size: 12px;
             letter-spacing: 3px;
-            color: rgba(255,255,255,0.4);
+            color: rgba(13,13,13,0.6);
             margin-bottom: 35px;
+            text-transform: uppercase;
         }
 
-        .adm-lock-icon {
+        .adm-gate-icon {
             font-size: 36px;
-            color: #C9A84C;
+            color: var(--lc-gold);
             margin-bottom: 24px;
             display: block;
         }
@@ -85,31 +77,30 @@
             width: 100%;
             padding: 13px 18px;
             border-radius: 8px;
-            border: 1.5px solid rgba(201,168,76,0.25);
-            background: #0D0D0D;
-            color: #FFFFFF;
+            border: 1.5px solid #e0e0e0;
+            background: var(--lc-white);
+            color: var(--lc-black);
             font-family: 'Lato', sans-serif;
             font-size: 15px;
             outline: none;
-            box-sizing: border-box;
+            margin-bottom: 16px;
             text-align: center;
             letter-spacing: 4px;
-            margin-bottom: 16px;
         }
 
         .adm-password-input:focus {
-            border-color: #C9A84C;
+            border-color: var(--lc-gold);
         }
 
         .adm-password-input::placeholder {
-            color: rgba(255,255,255,0.35);
+            color: #aaa;
         }
 
         .adm-unlock-btn {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #C9A84C, #F0D080);
-            color: #0D0D0D;
+            background: var(--lc-gold);
+            color: var(--lc-black);
             font-family: 'Lato', sans-serif;
             font-weight: 800;
             font-size: 14px;
@@ -117,13 +108,14 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
+            min-height: 44px;
         }
 
         .adm-unlock-btn:hover {
-            opacity: 0.9;
+            background: var(--lc-light-gold);
         }
 
-        .adm-lock-error {
+        .adm-gate-error {
             display: none;
             margin-top: 12px;
             font-family: 'Lato', sans-serif;
@@ -131,7 +123,7 @@
             color: #e74c3c;
         }
 
-        .adm-password-input.shake {
+        .adm-gate-card.shake {
             animation: adm-shake 0.3s;
         }
 
@@ -142,19 +134,19 @@
         }
 
         /* Admin Panel */
-        .adm-admin-panel {
+        .adm-panel {
             display: none;
             min-height: 100vh;
-            background: #F9F6F0;
-            font-family: 'Lato', sans-serif;
+            background: var(--lc-bg);
         }
 
         .adm-topbar {
-            background: #0D0D0D;
+            background: var(--lc-black);
             padding: 16px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
         .adm-topbar-left {
@@ -171,66 +163,96 @@
         }
 
         .adm-site-link:hover {
-            color: #C9A84C;
+            color: var(--lc-gold);
         }
 
         .adm-topbar-title {
             font-family: 'Playfair Display', serif;
-            color: #C9A84C;
+            color: var(--lc-gold);
             font-size: 1.2rem;
         }
 
-        .adm-logout-btn {
-            padding: 8px 20px;
+        .adm-topbar-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .adm-export-btn, .adm-logout-btn {
+            padding: 8px 16px;
             border-radius: 6px;
-            background: transparent;
-            border: 1px solid #C9A84C;
-            color: #C9A84C;
             font-family: 'Lato', sans-serif;
-            font-size: 13px;
-            cursor: pointer;
+            font-size: 12px;
             font-weight: 700;
+            cursor: pointer;
+            min-height: 36px;
+            border: 2px solid var(--lc-gold);
+        }
+
+        .adm-export-btn {
+            background: var(--lc-gold);
+            color: var(--lc-black);
+        }
+
+        .adm-export-btn:hover {
+            background: var(--lc-light-gold);
+        }
+
+        .adm-logout-btn {
+            background: transparent;
+            color: var(--lc-gold);
         }
 
         .adm-logout-btn:hover {
-            background: #C9A84C;
-            color: #0D0D0D;
+            background: var(--lc-gold);
+            color: var(--lc-black);
         }
 
-        .adm-main-area {
-            max-width: 1200px;
+        /* Unsaved Changes Banner */
+        .adm-unsaved-banner {
+            background: var(--lc-gold);
+            color: var(--lc-black);
+            padding: 12px 30px;
+            text-align: center;
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            display: none;
+        }
+
+        /* Main Content */
+        .adm-main {
+            max-width: 1400px;
             margin: 0 auto;
             padding: 40px 30px;
             display: grid;
-            grid-template-columns: 420px 1fr;
+            grid-template-columns: 38% 60%;
             gap: 40px;
             align-items: start;
         }
 
-        /* Add Product Form */
-        .adm-form-card {
-            background: #FFFFFF;
+        /* Form Section */
+        .adm-form-section {
+            background: var(--lc-white);
             border-radius: 16px;
-            padding: 36px 32px;
+            padding: 32px;
             box-shadow: 0 4px 24px rgba(0,0,0,0.08);
             border: 1px solid rgba(201,168,76,0.1);
             position: sticky;
-            top: 30px;
+            top: 120px;
         }
 
-        .adm-form-heading {
+        .adm-form-title {
             font-family: 'Playfair Display', serif;
             font-size: 1.4rem;
-            color: #0D0D0D;
+            color: var(--lc-black);
             margin-bottom: 6px;
         }
 
         .adm-form-accent {
-            width: 40px;
+            width: 60px;
             height: 3px;
-            background: #C9A84C;
+            background: var(--lc-gold);
             margin-bottom: 28px;
-            display: block;
         }
 
         .adm-field-group {
@@ -241,7 +263,7 @@
             font-family: 'Lato', sans-serif;
             font-size: 12px;
             font-weight: 700;
-            color: #C9A84C;
+            color: var(--lc-gold);
             letter-spacing: 0.5px;
             display: block;
             margin-bottom: 7px;
@@ -254,20 +276,19 @@
             padding: 11px 14px;
             border-radius: 8px;
             border: 1.5px solid #e0e0e0;
-            background: #fff;
+            background: var(--lc-white);
             font-family: 'Lato', sans-serif;
             font-size: 14px;
-            color: #0D0D0D;
+            color: var(--lc-black);
             outline: none;
-            box-sizing: border-box;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            min-height: 44px;
+            transition: border-color 0.3s;
         }
 
         .adm-field-input:focus,
         .adm-field-select:focus,
         .adm-field-textarea:focus {
-            border-color: #C9A84C;
-            box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+            border-color: var(--lc-gold);
         }
 
         .adm-field-textarea {
@@ -275,133 +296,168 @@
             min-height: 80px;
         }
 
-        .adm-price-note {
+        .adm-char-count {
             font-size: 11px;
             color: #999;
+            text-align: right;
             margin-top: 4px;
-        }
-
-        .adm-upload-area {
-            border: 2px dashed rgba(201,168,76,0.4);
-            border-radius: 10px;
-            padding: 30px 20px;
-            text-align: center;
-            cursor: pointer;
-            background: #F9F6F0;
-            transition: 0.3s;
-        }
-
-        .adm-upload-area:hover {
-            border-color: #C9A84C;
-            background: #fff;
-        }
-
-        .adm-upload-icon {
-            font-size: 28px;
-            color: #C9A84C;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .adm-upload-text {
-            font-family: 'Lato', sans-serif;
-            font-size: 14px;
-            color: #888;
-        }
-
-        .adm-upload-subtext {
-            font-size: 11px;
-            color: #bbb;
-            margin-top: 4px;
-        }
-
-        .adm-image-upload {
-            display: none;
         }
 
         .adm-image-preview {
             display: none;
-            margin-top: 14px;
+            margin-top: 12px;
             text-align: center;
         }
 
         .adm-preview-img {
-            max-width: 100%;
-            max-height: 180px;
-            border-radius: 8px;
+            width: 120px;
+            height: 120px;
             object-fit: cover;
+            border-radius: 8px;
             border: 2px solid rgba(201,168,76,0.3);
         }
 
-        .adm-remove-image {
-            font-size: 12px;
-            color: #e74c3c;
+        .adm-no-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .adm-no-preview i {
+            font-size: 32px;
+            color: #ccc;
+        }
+
+        .adm-drive-helper {
+            margin-top: 16px;
+            border-top: 1px solid #eee;
+            padding-top: 16px;
+        }
+
+        .adm-drive-toggle {
+            background: none;
+            border: none;
+            color: var(--lc-gold);
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
             cursor: pointer;
-            margin-top: 8px;
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .adm-drive-content {
+            display: none;
+        }
+
+        .adm-drive-steps {
+            font-size: 12px;
+            color: #777;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .adm-drive-input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 12px;
+            margin-bottom: 8px;
+            min-height: 36px;
+        }
+
+        .adm-drive-convert-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--lc-gold);
+            background: transparent;
+            color: var(--lc-gold);
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            cursor: pointer;
+            min-height: 32px;
+        }
+
+        .adm-drive-convert-btn:hover {
+            background: var(--lc-gold);
+            color: var(--lc-black);
+        }
+
+        .adm-form-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 24px;
         }
 
         .adm-save-btn {
             width: 100%;
-            padding: 15px;
-            margin-top: 10px;
-            background: linear-gradient(135deg, #C9A84C, #F0D080);
-            color: #0D0D0D;
+            padding: 14px;
+            background: var(--lc-gold);
+            color: var(--lc-black);
             font-family: 'Lato', sans-serif;
             font-weight: 800;
-            font-size: 15px;
-            letter-spacing: 1px;
+            font-size: 14px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: 0.3s;
+            min-height: 44px;
         }
 
         .adm-save-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
+            background: var(--lc-light-gold);
         }
 
-        .adm-save-toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #0D0D0D;
-            color: #C9A84C;
-            padding: 14px 24px;
-            border-radius: 8px;
-            border-left: 4px solid #C9A84C;
+        .adm-clear-btn {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: var(--lc-gold);
             font-family: 'Lato', sans-serif;
             font-weight: 700;
-            font-size: 14px;
-            display: none;
-            z-index: 9999;
+            font-size: 13px;
+            border: 2px solid var(--lc-gold);
+            border-radius: 8px;
+            cursor: pointer;
+            min-height: 44px;
         }
 
-        /* Product List */
-        .adm-list-panel {
-            background: #FFFFFF;
+        .adm-clear-btn:hover {
+            background: var(--lc-gold);
+            color: var(--lc-black);
+        }
+
+        /* Products Grid */
+        .adm-products-section {
+            background: var(--lc-white);
             border-radius: 16px;
             padding: 32px;
             box-shadow: 0 4px 24px rgba(0,0,0,0.08);
         }
 
-        .adm-list-header {
+        .adm-products-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 6px;
         }
 
-        .adm-list-title {
+        .adm-products-title {
             font-family: 'Playfair Display', serif;
             font-size: 1.3rem;
-            color: #0D0D0D;
+            color: var(--lc-black);
         }
 
-        .adm-product-count {
-            background: #C9A84C;
-            color: #0D0D0D;
+        .adm-products-count {
+            background: var(--lc-gold);
+            color: var(--lc-black);
             font-family: 'Lato', sans-serif;
             font-weight: 800;
             font-size: 12px;
@@ -409,69 +465,233 @@
             border-radius: 20px;
         }
 
-        .adm-list-accent {
+        .adm-products-accent {
             width: 40px;
             height: 3px;
-            background: #C9A84C;
+            background: var(--lc-gold);
             margin-bottom: 24px;
-            display: block;
         }
 
-        .adm-search-bar {
-            width: 100%;
+        .adm-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            align-items: center;
+        }
+
+        .adm-search-input {
+            flex: 1;
             padding: 10px 16px;
             border-radius: 8px;
             border: 1.5px solid #e0e0e0;
             font-family: 'Lato', sans-serif;
             font-size: 14px;
             outline: none;
-            margin-bottom: 16px;
+            min-height: 44px;
         }
 
-        .adm-search-bar:focus {
-            border-color: #C9A84C;
+        .adm-search-input:focus {
+            border-color: var(--lc-gold);
         }
 
-        .adm-filter-bar {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 24px;
-        }
-
-        .adm-filter-btn {
-            padding: 7px 16px;
-            border-radius: 20px;
+        .adm-filter-select {
+            padding: 10px 12px;
+            border-radius: 8px;
             border: 1.5px solid #e0e0e0;
-            background: #fff;
             font-family: 'Lato', sans-serif;
-            font-size: 13px;
-            color: #555;
-            cursor: pointer;
-            transition: 0.2s;
+            font-size: 14px;
+            outline: none;
+            min-height: 44px;
+            background: var(--lc-white);
         }
 
-        .adm-filter-btn.active,
-        .adm-filter-btn:hover {
-            background: #0D0D0D;
-            color: #C9A84C;
-            border-color: #0D0D0D;
+        .adm-loading {
+            text-align: center;
+            padding: 60px 20px;
         }
 
-        .adm-product-grid {
+        .adm-loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--lc-gold);
+            border-radius: 50%;
+            animation: adm-spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes adm-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .adm-loading-text {
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .adm-error {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .adm-error-text {
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            color: #e74c3c;
+        }
+
+        .adm-products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
             gap: 16px;
+        }
+
+        .adm-card {
+            background: var(--lc-white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .adm-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .adm-card-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .adm-card-no-image {
+            width: 100%;
+            height: 150px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .adm-card-no-image i {
+            font-size: 32px;
+            color: #ccc;
+        }
+
+        .adm-card-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--lc-gold);
+            color: var(--lc-black);
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .adm-card-body {
+            padding: 16px;
+        }
+
+        .adm-card-category {
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            color: var(--lc-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .adm-card-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: var(--lc-black);
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .adm-card-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--lc-gold);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .adm-card-description {
+            font-family: 'Lato', sans-serif;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .adm-card-date {
+            font-family: 'Lato', sans-serif;
+            font-size: 10px;
+            color: #999;
+            margin-bottom: 14px;
+        }
+
+        .adm-card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .adm-edit-btn, .adm-delete-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Lato', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            min-height: 36px;
+            border: 1px solid;
+        }
+
+        .adm-edit-btn {
+            background: transparent;
+            color: var(--lc-gold);
+            border-color: var(--lc-gold);
+        }
+
+        .adm-edit-btn:hover {
+            background: var(--lc-gold);
+            color: var(--lc-black);
+        }
+
+        .adm-delete-btn {
+            background: transparent;
+            color: #e74c3c;
+            border-color: #e74c3c;
+        }
+
+        .adm-delete-btn:hover {
+            background: #e74c3c;
+            color: var(--lc-white);
         }
 
         .adm-empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: #bbb;
         }
 
         .adm-empty-icon {
             font-size: 48px;
+            color: #ccc;
             display: block;
             margin-bottom: 16px;
         }
@@ -479,197 +699,230 @@
         .adm-empty-text {
             font-family: 'Lato', sans-serif;
             font-size: 14px;
+            color: #666;
         }
 
-        .adm-product-card {
-            background: #F9F6F0;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #eee;
-            transition: 0.3s;
+        /* Toast */
+        .adm-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            max-width: 300px;
         }
 
-        .adm-product-card:hover {
-            border-color: #C9A84C;
+        .adm-toast.show {
+            transform: translateX(0);
         }
 
-        .adm-product-image {
-            height: 140px;
-            overflow: hidden;
-            background: #1a1a1a;
+        .adm-toast.success {
+            background: var(--lc-gold);
+            color: var(--lc-black);
+        }
+
+        .adm-toast.error {
+            background: #e74c3c;
+            color: var(--lc-white);
+        }
+
+        .adm-toast.info {
+            background: var(--lc-black);
+            color: var(--lc-white);
+        }
+
+        /* Modal */
+        .adm-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
 
-        .adm-product-image img {
+        .adm-modal-content {
+            background: var(--lc-white);
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 500px;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
-        .adm-no-image-icon {
-            color: rgba(201,168,76,0.3);
-            font-size: 32px;
-        }
-
-        .adm-product-body {
-            padding: 12px;
-        }
-
-        .adm-product-name {
+        .adm-modal-title {
             font-family: 'Playfair Display', serif;
-            font-size: 0.9rem;
-            color: #0D0D0D;
-            font-weight: 600;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 1.4rem;
+            color: var(--lc-black);
+            margin-bottom: 20px;
         }
 
-        .adm-product-category {
-            font-size: 11px;
-            color: #C9A84C;
-            font-weight: 700;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-        }
-
-        .adm-product-price {
-            font-family: 'Playfair Display', serif;
-            font-size: 0.95rem;
-            color: #0D0D0D;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .adm-delete-btn {
-            width: 100%;
-            padding: 7px;
-            border-radius: 6px;
-            background: transparent;
-            border: 1.5px solid #e74c3c;
-            color: #e74c3c;
+        .adm-modal-body {
             font-family: 'Lato', sans-serif;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 24px;
         }
 
-        .adm-delete-btn:hover {
-            background: #e74c3c;
-            color: #fff;
+        .adm-modal-code {
+            background: #f8f8f8;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #333;
+            margin: 8px 0;
+            border-left: 3px solid var(--lc-gold);
+        }
+
+        .adm-modal-actions {
+            text-align: right;
+        }
+
+        .adm-modal-close {
+            padding: 10px 20px;
+            background: var(--lc-gold);
+            color: var(--lc-black);
+            border: none;
+            border-radius: 6px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            min-height: 44px;
+        }
+
+        .adm-modal-close:hover {
+            background: var(--lc-light-gold);
         }
 
         /* Mobile Responsive */
-        @media (max-width: 900px) {
-            .adm-main-area {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .adm-form-card {
-                position: static;
-            }
-        }
-
         @media (max-width: 768px) {
-            .adm-lock-card {
-                padding: 40px 30px;
-                max-width: 350px;
-            }
-
             .adm-topbar {
-                padding: 12px 20px;
                 flex-direction: column;
-                gap: 10px;
+                gap: 12px;
+                padding: 16px 20px;
             }
 
             .adm-topbar-left {
                 order: 1;
             }
 
-            .adm-main-area {
+            .adm-topbar-actions {
+                order: 2;
+            }
+
+            .adm-main {
+                grid-template-columns: 1fr;
+                gap: 30px;
                 padding: 30px 20px;
             }
 
-            .adm-form-card {
-                padding: 28px 24px;
-            }
-
-            .adm-list-panel {
+            .adm-form-section {
+                position: static;
                 padding: 24px;
             }
 
-            .adm-product-grid {
+            .adm-products-section {
+                padding: 24px;
+            }
+
+            .adm-controls {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .adm-products-grid {
                 grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
                 gap: 12px;
+            }
+
+            .adm-modal-content {
+                padding: 24px;
+                margin: 10px;
             }
         }
 
         @media (max-width: 480px) {
-            .adm-product-grid {
+            .adm-products-grid {
                 grid-template-columns: 1fr;
             }
 
-            .adm-filter-bar {
-                gap: 8px;
+            .adm-card-actions {
+                flex-direction: column;
             }
 
-            .adm-filter-btn {
-                font-size: 12px;
-                padding: 6px 12px;
+            .adm-toast {
+                left: 20px;
+                right: 20px;
+                bottom: 20px;
+                max-width: none;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Lock Screen -->
-    <div id="lockScreen" class="adm-lock-screen">
-        <div class="adm-lock-card">
-            <div class="adm-lock-logo">LC Fashion Closet</div>
-            <div class="adm-lock-subtitle">Admin Panel</div>
-            <i class="fas fa-lock adm-lock-icon"></i>
-            <input type="password" id="passwordInput" class="adm-password-input" placeholder="Enter password">
-            <button id="unlockBtn" class="adm-unlock-btn">UNLOCK ADMIN PANEL</button>
-            <div id="lockError" class="adm-lock-error">Incorrect password. Try again.</div>
+    <!-- Password Gate -->
+    <div id="adm-gate" class="adm-gate">
+        <div class="adm-gate-card">
+            <div class="adm-gate-logo">LC Fashion Closet</div>
+            <div class="adm-gate-subtitle">Admin Panel</div>
+            <i class="fas fa-lock adm-gate-icon"></i>
+            <input type="password" id="adm-password-input" class="adm-password-input" placeholder="Enter password">
+            <button id="adm-unlock-btn" class="adm-unlock-btn">UNLOCK ADMIN PANEL</button>
+            <div id="adm-gate-error" class="adm-gate-error">Incorrect password. Try again.</div>
         </div>
     </div>
 
     <!-- Admin Panel -->
-    <div id="adminPanel" class="adm-admin-panel">
+    <div id="adm-panel" class="adm-panel">
         <!-- Topbar -->
         <div class="adm-topbar">
             <div class="adm-topbar-left">
                 <a href="index.html" class="adm-site-link">← View Live Site</a>
-                <div class="adm-topbar-title">LC Fashion Closet — Admin Panel</div>
+                <div class="adm-topbar-title">LC Fashion Closet — Admin</div>
             </div>
-            <button id="logoutBtn" class="adm-logout-btn">Logout</button>
+            <div class="adm-topbar-actions">
+                <button id="adm-export-btn" class="adm-export-btn">⬇ Export & Download products.json</button>
+                <button id="adm-logout-btn" class="adm-logout-btn">Logout</button>
+            </div>
         </div>
 
-        <!-- Main Area -->
-        <div class="adm-main-area">
-            <!-- Add Product Form -->
-            <div class="adm-form-card">
-                <h2 class="adm-form-heading">Add New Product</h2>
+        <!-- Unsaved Changes Banner -->
+        <div id="adm-unsaved-banner" class="adm-unsaved-banner">
+            ⚠ You have unsaved changes — Export & Download products.json then push to GitHub to go live.
+        </div>
+
+        <!-- Main Content -->
+        <div class="adm-main">
+            <!-- Form Section -->
+            <div class="adm-form-section">
+                <h2 id="adm-form-title" class="adm-form-title">Add New Product</h2>
                 <span class="adm-form-accent"></span>
 
                 <div class="adm-field-group">
                     <label class="adm-field-label">Product Name</label>
-                    <input type="text" id="productName" class="adm-field-input" placeholder="e.g. Elegant Wrap Dress">
+                    <input type="text" id="adm-product-name" class="adm-field-input" placeholder="e.g. Elegant Wrap Dress" required>
                 </div>
 
                 <div class="adm-field-group">
-                    <label class="adm-field-label">Price</label>
-                    <input type="number" id="productPrice" class="adm-field-input" placeholder="e.g. 18500">
-                    <div class="adm-price-note">Enter in MK (Malawian Kwacha)</div>
+                    <label class="adm-field-label">Price (MK)</label>
+                    <input type="number" id="adm-product-price" class="adm-field-input" placeholder="e.g. 18500" min="0" required>
                 </div>
 
                 <div class="adm-field-group">
                     <label class="adm-field-label">Category</label>
-                    <select id="productCategory" class="adm-field-select">
+                    <select id="adm-product-category" class="adm-field-select" required>
                         <option value="" disabled selected>Select category...</option>
                         <option value="Women's Fashion">Women's Fashion</option>
                         <option value="Men's Fashion">Men's Fashion</option>
@@ -684,103 +937,248 @@
 
                 <div class="adm-field-group">
                     <label class="adm-field-label">Badge</label>
-                    <select id="productBadge" class="adm-field-select">
-                        <option value="No Badge">No Badge</option>
+                    <select id="adm-product-badge" class="adm-field-select">
+                        <option value="">No Badge</option>
                         <option value="New Arrival">New Arrival</option>
-                        <option value="Bestseller">Bestseller</option>
-                        <option value="Hot">Hot</option>
+                        <option value="Best Seller">Best Seller</option>
+                        <option value="Limited Edition">Limited Edition</option>
                         <option value="Sale">Sale</option>
+                        <option value="Trending">Trending</option>
                     </select>
                 </div>
 
                 <div class="adm-field-group">
-                    <label class="adm-field-label">Short Description</label>
-                    <textarea id="productDescription" class="adm-field-textarea" rows="3" placeholder="Brief product description..."></textarea>
+                    <label class="adm-field-label">Description</label>
+                    <textarea id="adm-product-description" class="adm-field-textarea" rows="3" maxlength="200" placeholder="Brief product description..."></textarea>
+                    <div class="adm-char-count"><span id="adm-char-count">0</span>/200</div>
                 </div>
 
                 <div class="adm-field-group">
-                    <label class="adm-field-label">PRODUCT IMAGE</label>
-                    <div class="adm-upload-area" id="uploadArea">
-                        <i class="fas fa-cloud-upload-alt adm-upload-icon"></i>
-                        <div class="adm-upload-text">Click to upload image</div>
-                        <div class="adm-upload-subtext">JPG, PNG or WEBP — max 2MB</div>
-                        <input type="file" id="imageUpload" class="adm-image-upload" accept="image/*">
-                    </div>
-                    <div id="imagePreview" class="adm-image-preview">
-                        <img id="previewImg" class="adm-preview-img" alt="Product preview">
-                        <span id="removeImage" class="adm-remove-image">Remove</span>
+                    <label class="adm-field-label">Image URL</label>
+                    <input type="url" id="adm-product-image" class="adm-field-input" placeholder="Paste image URL (Google Drive, Imgur, etc.)">
+                    <div id="adm-image-preview" class="adm-image-preview">
+                        <img id="adm-preview-img" class="adm-preview-img" alt="Product preview">
                     </div>
                 </div>
 
-                <div class="adm-field-group">
-                    <label class="adm-field-label">WHATSAPP ORDER LINK (auto-set)</label>
-                    <input type="text" id="productWhatsapp" class="adm-field-input" value="https://wa.me/265992756277" readonly style="background: #f5f5f5; color: #999; cursor: not-allowed;">
+                <!-- Google Drive Helper -->
+                <div class="adm-drive-helper">
+                    <button id="adm-drive-toggle" class="adm-drive-toggle">
+                        How to use Google Drive images ▼
+                    </button>
+                    <div id="adm-drive-content" class="adm-drive-content">
+                        <div class="adm-drive-steps">
+                            1. Upload photo to Google Drive<br>
+                            2. Right-click → Share → Anyone with link<br>
+                            3. Copy link and paste it below<br>
+                            4. Click "Convert Drive Link" button
+                        </div>
+                        <input type="url" id="adm-drive-input" class="adm-drive-input" placeholder="Paste Google Drive share link here">
+                        <button id="adm-drive-convert-btn" class="adm-drive-convert-btn">Convert Drive Link</button>
+                    </div>
                 </div>
 
-                <button id="saveProductBtn" class="adm-save-btn">✦  Save Product  ✦</button>
+                <!-- Form Buttons -->
+                <div class="adm-form-buttons">
+                    <button id="adm-save-btn" class="adm-save-btn">Save Product</button>
+                    <button id="adm-clear-btn" class="adm-clear-btn">Clear Form</button>
+                </div>
             </div>
 
-            <!-- Product List -->
-            <div class="adm-list-panel">
-                <div class="adm-list-header">
-                    <h2 class="adm-list-title">Saved Products</h2>
-                    <span id="productCount" class="adm-product-count">0</span>
+            <!-- Products Grid -->
+            <div class="adm-products-section">
+                <div class="adm-products-header">
+                    <h2 class="adm-products-title">Saved Products (<span id="adm-products-count">0</span>)</h2>
                 </div>
-                <span class="adm-list-accent"></span>
+                <span class="adm-products-accent"></span>
 
-                <input type="text" id="productSearch" class="adm-search-bar" placeholder="Search products...">
-
-                <div class="adm-filter-bar">
-                    <button class="adm-filter-btn active" data-filter="All">All</button>
-                    <button class="adm-filter-btn" data-filter="Women's Fashion">Women's</button>
-                    <button class="adm-filter-btn" data-filter="Men's Fashion">Men's</button>
-                    <button class="adm-filter-btn" data-filter="Bags & Purses">Bags</button>
-                    <button class="adm-filter-btn" data-filter="Shoes & Heels">Shoes</button>
-                    <button class="adm-filter-btn" data-filter="Jewellery & Sets">Jewellery</button>
-                    <button class="adm-filter-btn" data-filter="Ankara & African Print">Ankara</button>
-                    <button class="adm-filter-btn" data-filter="Accessories">Accessories</button>
-                    <button class="adm-filter-btn" data-filter="Beauty & Lifestyle">Beauty</button>
+                <!-- Controls -->
+                <div class="adm-controls">
+                    <input type="text" id="adm-search-input" class="adm-search-input" placeholder="Search products...">
+                    <select id="adm-category-filter" class="adm-filter-select">
+                        <option value="">All Categories</option>
+                        <option value="Women's Fashion">Women's Fashion</option>
+                        <option value="Men's Fashion">Men's Fashion</option>
+                        <option value="Bags & Purses">Bags & Purses</option>
+                        <option value="Shoes & Heels">Shoes & Heels</option>
+                        <option value="Jewellery & Sets">Jewellery & Sets</option>
+                        <option value="Ankara & African Print">Ankara & African Print</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Beauty & Lifestyle">Beauty & Lifestyle</option>
+                    </select>
                 </div>
 
-                <div id="adminProductGrid" class="adm-product-grid">
-                    <div id="emptyState" class="adm-empty-state">
-                        <i class="fas fa-box-open adm-empty-icon"></i>
-                        <div class="adm-empty-text">No products yet. Add your first product!</div>
-                    </div>
+                <!-- Loading State -->
+                <div id="adm-loading" class="adm-loading">
+                    <div class="adm-loading-spinner"></div>
+                    <div class="adm-loading-text">Loading products from GitHub...</div>
+                </div>
+
+                <!-- Error State -->
+                <div id="adm-error" class="adm-error" style="display: none;">
+                    <div class="adm-error-text">Could not load products.json from GitHub. Check your connection.</div>
+                </div>
+
+                <!-- Products Grid -->
+                <div id="adm-products-grid" class="adm-products-grid" style="display: none;">
+                    <!-- Products will be loaded here -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="adm-empty-state" class="adm-empty-state" style="display: none;">
+                    <i class="fas fa-shopping-bag adm-empty-icon"></i>
+                    <div class="adm-empty-text">No products yet. Add your first product using the form on the left.</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Success Toast -->
-    <div id="saveToast" class="adm-save-toast">✅ Product saved successfully!</div>
+    <!-- Modal -->
+    <div id="adm-modal" class="adm-modal" style="display: none;">
+        <div class="adm-modal-content">
+            <h2 class="adm-modal-title">File Downloaded — Now Go Live!</h2>
+            <div class="adm-modal-body">
+                <p>Your updated products.json has been downloaded. Follow these steps to go live:</p>
+
+                <div class="adm-modal-code">Step 1: Replace products.json in your project folder with the downloaded file</div>
+
+                <div class="adm-modal-code">Step 2: Open VS Code terminal and run:<br>
+                git add products.json<br>
+                git commit -m "Update products"<br>
+                git push</div>
+
+                <div class="adm-modal-code">Step 3: Wait 30 seconds then visit your live site — products will appear!</div>
+            </div>
+            <div class="adm-modal-actions">
+                <button id="adm-modal-close" class="adm-modal-close">Got it!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="adm-toast" class="adm-toast"></div>
 
     <script>
-        // Password Protection
-        const lockScreen = document.getElementById('lockScreen');
-        const adminPanel = document.getElementById('adminPanel');
-        const passwordInput = document.getElementById('passwordInput');
-        const unlockBtn = document.getElementById('unlockBtn');
-        const lockError = document.getElementById('lockError');
-        const logoutBtn = document.getElementById('logoutBtn');
+        // Constants
+        const GITHUB_RAW_URL = "https://raw.githubusercontent.com/Jonathan97k/lc-fashion-closet/main/products.json";
+        const WHATSAPP = "https://wa.me/265992756277";
+        const ADMIN_PASSWORD = "LCAdmin2025";
+        const STORAGE_KEY = "lc_products_session";
 
-        // Check if already authenticated
-        if (sessionStorage.getItem('lc_admin_auth') === 'true') {
-            lockScreen.style.display = 'none';
-            adminPanel.style.display = 'block';
-            renderAdminProducts();
+        // DOM Elements
+        const gate = document.getElementById('adm-gate');
+        const panel = document.getElementById('adm-panel');
+        const passwordInput = document.getElementById('adm-password-input');
+        const unlockBtn = document.getElementById('adm-unlock-btn');
+        const gateError = document.getElementById('adm-gate-error');
+        const logoutBtn = document.getElementById('adm-logout-btn');
+        const exportBtn = document.getElementById('adm-export-btn');
+        const unsavedBanner = document.getElementById('adm-unsaved-banner');
+        const modal = document.getElementById('adm-modal');
+        const modalClose = document.getElementById('adm-modal-close');
+
+        // Form elements
+        const productName = document.getElementById('adm-product-name');
+        const productPrice = document.getElementById('adm-product-price');
+        const productCategory = document.getElementById('adm-product-category');
+        const productBadge = document.getElementById('adm-product-badge');
+        const productDescription = document.getElementById('adm-product-description');
+        const productImage = document.getElementById('adm-product-image');
+        const imagePreview = document.getElementById('adm-image-preview');
+        const previewImg = document.getElementById('adm-preview-img');
+        const charCount = document.getElementById('adm-char-count');
+        const saveBtn = document.getElementById('adm-save-btn');
+        const clearBtn = document.getElementById('adm-clear-btn');
+        const formTitle = document.getElementById('adm-form-title');
+
+        // Google Drive helper
+        const driveToggle = document.getElementById('adm-drive-toggle');
+        const driveContent = document.getElementById('adm-drive-content');
+        const driveInput = document.getElementById('adm-drive-input');
+        const driveConvertBtn = document.getElementById('adm-drive-convert-btn');
+
+        // Products elements
+        const loading = document.getElementById('adm-loading');
+        const error = document.getElementById('adm-error');
+        const productsGrid = document.getElementById('adm-products-grid');
+        const emptyState = document.getElementById('adm-empty-state');
+        const productsCount = document.getElementById('adm-products-count');
+        const searchInput = document.getElementById('adm-search-input');
+        const categoryFilter = document.getElementById('adm-category-filter');
+
+        // State
+        let sessionProducts = [];
+        let hasUnsavedChanges = false;
+        let editMode = false;
+        let editId = null;
+
+        // Initialize
+        init();
+
+        function init() {
+            // Check if already authenticated
+            if (sessionStorage.getItem('lc_admin_auth') === 'true') {
+                gate.style.display = 'none';
+                panel.style.display = 'block';
+                loadProducts();
+            }
+
+            // Password gate
+            unlockBtn.addEventListener('click', unlockAdmin);
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    unlockAdmin();
+                }
+            });
+
+            // Logout
+            logoutBtn.addEventListener('click', function() {
+                sessionStorage.removeItem('lc_admin_auth');
+                location.reload();
+            });
+
+            // Export
+            exportBtn.addEventListener('click', exportProducts);
+
+            // Form
+            productDescription.addEventListener('input', updateCharCount);
+            productImage.addEventListener('input', updateImagePreview);
+            saveBtn.addEventListener('click', saveProduct);
+            clearBtn.addEventListener('click', clearForm);
+
+            // Google Drive helper
+            driveToggle.addEventListener('click', function() {
+                const isVisible = driveContent.style.display === 'block';
+                driveContent.style.display = isVisible ? 'none' : 'block';
+                this.innerHTML = isVisible ? 'How to use Google Drive images ▼' : 'How to use Google Drive images ▲';
+            });
+
+            driveConvertBtn.addEventListener('click', convertDriveLink);
+
+            // Search and filter
+            let searchTimeout;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => renderProducts(), 300);
+            });
+
+            categoryFilter.addEventListener('change', renderProducts);
+
+            // Modal
+            modalClose.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
         }
 
-        // Unlock functionality
         function unlockAdmin() {
             const password = passwordInput.value;
-            if (password === 'LCAdmin2025') {
+            if (password === ADMIN_PASSWORD) {
                 sessionStorage.setItem('lc_admin_auth', 'true');
-                lockScreen.style.display = 'none';
-                adminPanel.style.display = 'block';
-                renderAdminProducts();
+                gate.style.display = 'none';
+                panel.style.display = 'block';
+                loadProducts();
             } else {
-                lockError.style.display = 'block';
+                gateError.style.display = 'block';
                 passwordInput.classList.add('shake');
                 setTimeout(() => {
                     passwordInput.classList.remove('shake');
@@ -788,64 +1186,128 @@
             }
         }
 
-        unlockBtn.addEventListener('click', unlockAdmin);
-        passwordInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                unlockAdmin();
+        async function loadProducts() {
+            try {
+                loading.style.display = 'block';
+                error.style.display = 'none';
+                productsGrid.style.display = 'none';
+                emptyState.style.display = 'none';
+
+                // Try to load from GitHub
+                const response = await fetch(GITHUB_RAW_URL);
+                if (!response.ok) throw new Error('Network error');
+
+                sessionProducts = await response.json();
+
+                // Save to sessionStorage as backup
+                sessionStorage.setItem(STORAGE_KEY, JSON.stringify(sessionProducts));
+
+                renderProducts();
+            } catch (err) {
+                console.error('Failed to load products:', err);
+
+                // Try to load from sessionStorage
+                const cached = sessionStorage.getItem(STORAGE_KEY);
+                if (cached) {
+                    sessionProducts = JSON.parse(cached);
+                    showToast('Loaded from cache. Some features may not work.', 'info');
+                    renderProducts();
+                } else {
+                    loading.style.display = 'none';
+                    error.style.display = 'block';
+                }
             }
-        });
+        }
 
-        // Logout functionality
-        logoutBtn.addEventListener('click', function() {
-            sessionStorage.removeItem('lc_admin_auth');
-            location.reload();
-        });
+        function renderProducts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filterCategory = categoryFilter.value;
 
-        // Product Management
-        let products = JSON.parse(localStorage.getItem('lc_products')) || [];
-        let currentFilter = 'All';
-        let currentSearch = '';
+            let filtered = sessionProducts.filter(product => {
+                const matchesSearch = !searchTerm ||
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    product.category.toLowerCase().includes(searchTerm);
+                const matchesCategory = !filterCategory || product.category === filterCategory;
+                return matchesSearch && matchesCategory;
+            });
 
-        const productName = document.getElementById('productName');
-        const productPrice = document.getElementById('productPrice');
-        const productCategory = document.getElementById('productCategory');
-        const productBadge = document.getElementById('productBadge');
-        const productDescription = document.getElementById('productDescription');
-        const imageUpload = document.getElementById('imageUpload');
-        const uploadArea = document.getElementById('uploadArea');
-        const imagePreview = document.getElementById('imagePreview');
-        const previewImg = document.getElementById('previewImg');
-        const removeImage = document.getElementById('removeImage');
-        const saveProductBtn = document.getElementById('saveProductBtn');
-        const saveToast = document.getElementById('saveToast');
-        const productSearch = document.getElementById('productSearch');
-        const filterBtns = document.querySelectorAll('.adm-filter-btn');
+            productsCount.textContent = filtered.length;
 
-        // Image upload
-        uploadArea.addEventListener('click', function() {
-            imageUpload.click();
-        });
+            loading.style.display = 'none';
+            error.style.display = 'none';
 
-        imageUpload.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file && file.size <= 2 * 1024 * 1024) { // 2MB limit
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImg.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
+            if (filtered.length === 0) {
+                productsGrid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
             }
-        });
 
-        removeImage.addEventListener('click', function() {
-            imageUpload.value = '';
-            imagePreview.style.display = 'none';
-            previewImg.src = '';
-        });
+            productsGrid.style.display = 'grid';
+            emptyState.style.display = 'none';
 
-        // Save product
-        saveProductBtn.addEventListener('click', saveProduct);
+            productsGrid.innerHTML = filtered.map(product => `
+                <div class="adm-card">
+                    <div class="adm-card-image">
+                        ${product.imageUrl ?
+                            `<img src="${product.imageUrl}" alt="${product.name}" class="adm-card-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` :
+                            ''
+                        }
+                        <div class="adm-card-no-image" style="display: ${product.imageUrl ? 'none' : 'flex'};">
+                            <i class="fas fa-image"></i>
+                        </div>
+                    </div>
+                    ${product.badge ? `<div class="adm-card-badge">${product.badge}</div>` : ''}
+                    <div class="adm-card-body">
+                        <div class="adm-card-category">${product.category}</div>
+                        <div class="adm-card-name">${product.name}</div>
+                        <div class="adm-card-price">MK ${product.price.toLocaleString()}</div>
+                        ${product.description ? `<div class="adm-card-description">${product.description}</div>` : ''}
+                        <div class="adm-card-date">Added: ${formatDate(product.dateAdded)}</div>
+                        <div class="adm-card-actions">
+                            <button class="adm-edit-btn" onclick="editProduct('${product.id}')">Edit</button>
+                            <button class="adm-delete-btn" onclick="deleteProduct('${product.id}')">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString();
+        }
+
+        function updateCharCount() {
+            charCount.textContent = productDescription.value.length;
+        }
+
+        function updateImagePreview() {
+            const url = productImage.value.trim();
+            if (url) {
+                previewImg.src = url;
+                imagePreview.style.display = 'block';
+            } else {
+                imagePreview.style.display = 'none';
+            }
+        }
+
+        function convertDriveLink() {
+            const driveUrl = driveInput.value.trim();
+            if (!driveUrl) return;
+
+            // Extract file ID from Google Drive share URL
+            const match = driveUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) ||
+                         driveUrl.match(/id=([a-zA-Z0-9_-]+)/);
+            if (match) {
+                const fileId = match[1];
+                const directUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+                productImage.value = directUrl;
+                updateImagePreview();
+                showToast('Google Drive link converted!', 'success');
+            } else {
+                showToast('Invalid Google Drive URL format', 'error');
+            }
+        }
 
         function saveProduct() {
             const name = productName.value.trim();
@@ -853,142 +1315,127 @@
             const category = productCategory.value;
             const badge = productBadge.value;
             const description = productDescription.value.trim();
+            const imageUrl = productImage.value.trim();
 
             // Validation
-            let isValid = true;
-            [productName, productPrice, productCategory].forEach(field => {
-                field.classList.remove('shake');
-            });
-
-            if (!name) {
-                productName.classList.add('shake');
-                isValid = false;
-            }
-            if (!price || price <= 0) {
-                productPrice.classList.add('shake');
-                isValid = false;
-            }
-            if (!category) {
-                productCategory.classList.add('shake');
-                isValid = false;
-            }
-
-            if (!isValid) {
-                setTimeout(() => {
-                    [productName, productPrice, productCategory].forEach(field => {
-                        field.classList.remove('shake');
-                    });
-                }, 300);
+            if (!name || !price || !category) {
+                showToast('Please fill in all required fields', 'error');
                 return;
             }
 
-            // Create product object
             const product = {
-                id: Date.now().toString(),
-                name: name,
-                price: price,
-                category: category,
-                badge: badge,
-                description: description,
-                image: previewImg.src || '',
-                whatsapp: 'https://wa.me/265992756277',
-                dateAdded: new Date().toISOString()
+                id: editMode ? editId : Date.now().toString(),
+                name,
+                price,
+                category,
+                badge: badge || '',
+                description,
+                imageUrl,
+                whatsapp: WHATSAPP,
+                dateAdded: editMode ? sessionProducts.find(p => p.id === editId).dateAdded : new Date().toISOString()
             };
 
-            // Save to localStorage
-            products.push(product);
-            localStorage.setItem('lc_products', JSON.stringify(products));
+            if (editMode) {
+                const index = sessionProducts.findIndex(p => p.id === editId);
+                sessionProducts[index] = product;
+                showToast('Product updated successfully!', 'success');
+            } else {
+                sessionProducts.push(product);
+                showToast('Product saved! Don\'t forget to export and push to GitHub.', 'success');
+            }
 
-            // Show toast
-            saveToast.style.display = 'block';
-            setTimeout(() => {
-                saveToast.style.display = 'none';
-            }, 3000);
+            hasUnsavedChanges = true;
+            unsavedBanner.style.display = 'block';
 
-            // Reset form
+            clearForm();
+            renderProducts();
+        }
+
+        function clearForm() {
             productName.value = '';
             productPrice.value = '';
             productCategory.value = '';
-            productBadge.value = 'No Badge';
+            productBadge.value = '';
             productDescription.value = '';
+            productImage.value = '';
             imagePreview.style.display = 'none';
-            previewImg.src = '';
-
-            // Re-render
-            renderAdminProducts();
+            charCount.textContent = '0';
+            editMode = false;
+            editId = null;
+            formTitle.textContent = 'Add New Product';
+            saveBtn.textContent = 'Save Product';
         }
 
-        // Render products
-        function renderAdminProducts() {
-            const filteredProducts = products.filter(product => {
-                const matchesFilter = currentFilter === 'All' || product.category === currentFilter;
-                const matchesSearch = currentSearch === '' ||
-                    product.name.toLowerCase().includes(currentSearch.toLowerCase());
-                return matchesFilter && matchesSearch;
-            });
+        function editProduct(id) {
+            const product = sessionProducts.find(p => p.id === id);
+            if (!product) return;
 
-            const productCount = document.getElementById('productCount');
-            productCount.textContent = filteredProducts.length;
+            productName.value = product.name;
+            productPrice.value = product.price;
+            productCategory.value = product.category;
+            productBadge.value = product.badge;
+            productDescription.value = product.description;
+            productImage.value = product.imageUrl;
 
-            const grid = document.getElementById('adminProductGrid');
-            const emptyState = document.getElementById('emptyState');
+            updateCharCount();
+            updateImagePreview();
 
-            if (filteredProducts.length === 0) {
-                grid.innerHTML = '';
-                emptyState.style.display = 'block';
-                return;
-            }
+            editMode = true;
+            editId = id;
+            formTitle.textContent = 'Edit Product';
+            saveBtn.textContent = 'Update Product';
 
-            emptyState.style.display = 'none';
-
-            grid.innerHTML = filteredProducts.map(product => `
-                <div class="adm-product-card" data-id="${product.id}">
-                    <div class="adm-product-image">
-                        ${product.image ?
-                            `<img src="${product.image}" alt="${product.name}">` :
-                            '<i class="fas fa-image adm-no-image-icon"></i>'
-                        }
-                    </div>
-                    <div class="adm-product-body">
-                        <div class="adm-product-name">${product.name}</div>
-                        <div class="adm-product-category">${product.category}</div>
-                        <div class="adm-product-price">MK ${product.price.toLocaleString()}</div>
-                        <button class="adm-delete-btn" onclick="deleteProduct('${product.id}')">🗑 Remove</button>
-                    </div>
-                </div>
-            `).join('');
+            // Scroll to form
+            document.querySelector('.adm-form-section').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Delete product
+        // Make editProduct global
+        window.editProduct = editProduct;
+
         function deleteProduct(id) {
-            if (confirm('Remove this product?')) {
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('lc_products', JSON.stringify(products));
-                renderAdminProducts();
-            }
+            if (!confirm('Delete this product?')) return;
+
+            sessionProducts = sessionProducts.filter(p => p.id !== id);
+            hasUnsavedChanges = true;
+            unsavedBanner.style.display = 'block';
+
+            showToast('Product deleted successfully!', 'success');
+            renderProducts();
         }
 
         // Make deleteProduct global
         window.deleteProduct = deleteProduct;
 
-        // Search functionality
-        productSearch.addEventListener('input', function() {
-            currentSearch = this.value;
-            renderAdminProducts();
-        });
+        function exportProducts() {
+            const dataStr = JSON.stringify(sessionProducts, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
 
-        // Filter functionality
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                currentFilter = this.dataset.filter;
-                renderAdminProducts();
-            });
-        });
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'products.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
 
-        // Initial render
-        renderAdminProducts();
+            hasUnsavedChanges = false;
+            unsavedBanner.style.display = 'none';
+
+            // Show modal with instructions
+            modal.style.display = 'flex';
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('adm-toast');
+            toast.textContent = message;
+            toast.className = `adm-toast ${type}`;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
     </script>
 </body>
 </html>
